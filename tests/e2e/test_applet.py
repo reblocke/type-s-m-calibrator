@@ -24,6 +24,41 @@ def _calculate(page: Page) -> None:
     )
 
 
+def _rendered_rectangles(page: Page, selector: str) -> list[dict[str, float | str]]:
+    return page.locator(selector).evaluate_all(
+        """(elements) => elements
+          .filter((element) => {
+            const rect = element.getBoundingClientRect();
+            return rect.width > 0 && rect.height > 0;
+          })
+          .map((element) => {
+            const rect = element.getBoundingClientRect();
+            return {
+              bottom: rect.bottom,
+              left: rect.left,
+              right: rect.right,
+              text: element.textContent.trim(),
+              top: rect.top,
+            };
+          })"""
+    )
+
+
+def _assert_nonoverlapping(rectangles: list[dict[str, float | str]]) -> None:
+    for index, first in enumerate(rectangles):
+        for second in rectangles[index + 1 :]:
+            horizontal_overlap = min(float(first["right"]), float(second["right"])) - max(
+                float(first["left"]), float(second["left"])
+            )
+            vertical_overlap = min(float(first["bottom"]), float(second["bottom"])) - max(
+                float(first["top"]), float(second["top"])
+            )
+            assert horizontal_overlap <= 0 or vertical_overlap <= 0, (
+                f"{first['text']!r} overlaps {second['text']!r}: "
+                f"{horizontal_overlap=}, {vertical_overlap=}"
+            )
+
+
 def test_worker_loads_and_calculates(page: Page, app_url: str) -> None:
     _ready(page, app_url)
     _calculate(page)
@@ -35,7 +70,7 @@ def test_worker_loads_and_calculates(page: Page, app_url: str) -> None:
     expect(page.locator("#plot")).to_contain_text("B. Type S")
     expect(page.locator("#plot")).to_contain_text("C. Type M")
     expect(page.locator("#observed-panel-note")).to_be_visible()
-    expect(page.locator("#runtime-versions")).to_contain_text("type-s-m-calibrator 0.1.1")
+    expect(page.locator("#runtime-versions")).to_contain_text("type-s-m-calibrator 0.1.2")
     expect(page.locator("#runtime-versions")).to_contain_text("wald-inference 0.4.1")
 
 
@@ -244,3 +279,36 @@ def test_mobile_keyboard_and_privacy_smoke(page: Page, app_url: str) -> None:
     assert page.evaluate(
         "document.documentElement.scrollWidth <= document.documentElement.clientWidth"
     )
+
+
+def test_mobile_plot_labels_are_contained_and_nonoverlapping(
+    page: Page,
+    app_url: str,
+) -> None:
+    page.set_viewport_size({"width": 390, "height": 844})
+    _ready(page, app_url)
+    page.locator("#observed-estimate").fill("0.42")
+    _calculate(page)
+
+    title_and_panels = _rendered_rectangles(
+        page,
+        "#plot .gtitle, #plot .annotation-text, #plot .legendtext",
+    )
+    x_axis_titles = _rendered_rectangles(
+        page,
+        "#plot .xtitle, #plot .x2title, #plot .x3title, #plot .x4title",
+    )
+    y_axis_titles = _rendered_rectangles(
+        page,
+        "#plot .ytitle, #plot .y2title, #plot .y3title, #plot .y4title",
+    )
+    assert len(title_and_panels) == 6
+    assert len(x_axis_titles) == 4
+    assert len(y_axis_titles) == 4
+
+    for rectangle in title_and_panels + x_axis_titles + y_axis_titles:
+        assert float(rectangle["left"]) >= 0, rectangle
+        assert float(rectangle["right"]) <= 390, rectangle
+    _assert_nonoverlapping(title_and_panels)
+    _assert_nonoverlapping(x_axis_titles)
+    _assert_nonoverlapping(y_axis_titles)

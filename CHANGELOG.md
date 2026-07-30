@@ -5,6 +5,16 @@ All notable changes use a release-oriented record here. This repository follows
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-07-30
+
+- Make the calculated four-panel plot readable at a 390 px viewport by wrapping compact figure,
+  panel, and axis titles, reserving additional plot space, and hiding the compact mode bar so it
+  cannot cover the title.
+- Add a Chromium regression that measures rendered label bounding boxes for viewport containment
+  and overlap instead of relying only on document-level horizontal overflow. This is a
+  presentation-only patch; Core remains at v0.4.1 and numerical responses, tables, and exports are
+  unchanged.
+
 ## [0.1.1] - 2026-07-30
 
 - Publish the related-tool-navigation Pages source as a checksum-addressed patch release so the
@@ -30,6 +40,7 @@ All notable changes use a release-oriented record here. This repository follows
 - Verifies deterministic clean staging, Chromium and WebKit behavior, strict
   error handling, exports, accessibility, and client-only privacy.
 
-[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/reblocke/type-s-m-calibrator/releases/tag/v0.1.0

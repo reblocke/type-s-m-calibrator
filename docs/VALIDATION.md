@@ -85,6 +85,8 @@ Static policy and Playwright tests verify:
   Reset;
 - ticket-priority reviewer fallback;
 - keyboard, mobile, focus-contrast, and linked-error behavior;
+- 390 px rendered bounding-box containment and peer-label non-overlap for the calculated
+  four-panel figure title, panel labels, legend text, and axis titles;
 - no input in URLs or network requests;
 - no backend, cookies, browser storage, telemetry, or logging.
 

@@ -123,3 +123,15 @@ are forward repeated-study operating characteristics. Type S/M are conditional
 on selection and are not posterior probabilities. Thresholds are not claimed
 to be clinically validated, and the app is not clinical guidance or a
 validated device.
+
+## 2026-07-30 — Compact plot labels use a presentation-only layout
+
+At viewports no wider than 480 px, Plotly wraps the figure, panel, and axis titles, reserves
+additional compact margins and height, and hides the mode bar so controls cannot cover the title.
+The assumed-true-effect comparison, fixed panel order, clipping disclosure, and accessible textual
+outputs remain intact.
+
+A 390 px Chromium regression measures the rendered bounding boxes of the figure title, panel
+labels, legend text, and axis titles. It requires those labels to remain within the viewport and
+requires peer labels not to overlap. This layout decision does not change Core v0.4.1, the six-part
+response, plotted data, numerical tables, or exports.

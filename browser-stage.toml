@@ -6,7 +6,7 @@ pyodide_packages = ["numpy", "scipy"]
 role = "app"
 distribution = "type-s-m-calibrator"
 import_name = "type_sm_calibrator"
-version = "0.1.1"
+version = "0.1.2"
 source = "project"
 
 [[packages]]

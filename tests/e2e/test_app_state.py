@@ -8,7 +8,7 @@ globalThis.__mockCalculateDelayMs = 0;
 function responseForRequest() {
   return {
     meta: {
-      app_version: "0.1.1",
+      app_version: "0.1.2",
       axis_spacing: "linear",
       caption:
         "All values are assumed true effects. Values above 10x are clipped in the plot only.",
@@ -147,7 +147,7 @@ class FakeWorker {
         message.type === "initialize"
           ? {
               packages: [
-                { distribution: "type-s-m-calibrator", version: "0.1.1" },
+                { distribution: "type-s-m-calibrator", version: "0.1.2" },
                 { distribution: "wald-inference", version: "0.4.1" },
               ],
             }

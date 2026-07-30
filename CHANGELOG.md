@@ -5,6 +5,18 @@ All notable changes use a release-oriented record here. This repository follows
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-07-30
+
+- Make calculated plots readable whenever their actual container is no wider than 480 px,
+  including a narrow results column in a wider two-column viewport. A `ResizeObserver` rerenders
+  Plotly only when the container crosses that compact-layout boundary.
+- Build standalone figure and dashboard PNGs from disposable fixed-size noncompact plots, so
+  high-resolution exports retain desktop typography without changing the live compact plot. The
+  shared builder preserves the same traces and clipping disclosure.
+- Add Chromium regressions for rendered-label containment and overlap, container-width selection,
+  post-render threshold crossings, and isolated noncompact export targets. This remains a
+  presentation-only patch; Core stays at v0.4.1 and numerical responses and tables are unchanged.
+
 ## [0.1.1] - 2026-07-30
 
 - Publish the related-tool-navigation Pages source as a checksum-addressed patch release so the
@@ -30,6 +42,7 @@ All notable changes use a release-oriented record here. This repository follows
 - Verifies deterministic clean staging, Chromium and WebKit behavior, strict
   error handling, exports, accessibility, and client-only privacy.
 
-[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/reblocke/type-s-m-calibrator/releases/tag/v0.1.0

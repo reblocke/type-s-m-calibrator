@@ -136,7 +136,10 @@ def test_exports_use_exact_columns_and_uncapped_contract_rows() -> None:
     assert "clipped in this plot only" in renderers
     assert "exportDashboardPng" in exports
     assert "exportFigurePng" in exports
-    assert "globalThis.Plotly.toImage(plotElement" in exports
+    assert "renderPlot(response, exportPlot" in exports
+    assert "globalThis.Plotly.toImage(exportPlot" in exports
+    assert 'purpose: "export"' in exports
+    assert "globalThis.Plotly.purge(exportPlot)" in exports
     assert "copyText" in exports
     assert "filenameSlug" in exports
 

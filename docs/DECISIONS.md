@@ -123,3 +123,22 @@ are forward repeated-study operating characteristics. Type S/M are conditional
 on selection and are not posterior probabilities. Thresholds are not claimed
 to be clinically validated, and the app is not clinical guidance or a
 validated device.
+
+## 2026-07-30 — Compact plot labels follow the plot container
+
+Plotly uses its compact layout when the rendered plot container is no wider than 480 px, regardless
+of the overall viewport width. The compact layout wraps the figure, panel, and axis titles,
+reserves additional margins and height, and hides the mode bar so controls cannot cover the title.
+A `ResizeObserver` tracks the plot content box and rerenders only when its width crosses the compact
+boundary; ordinary size changes within one category do not rebuild the plot.
+
+Figure and dashboard PNGs use the same trace and layout builder but render into a temporary,
+fixed-size, noncompact plot before image encoding. The temporary plot is purged and removed after
+each export, and the live plot retains its compact state. This keeps high-resolution typography
+independent of the initiating viewport while preserving plotted values and the clipping
+disclosure.
+
+Chromium regressions cover 390 px rendered-label containment and peer-label non-overlap, an
+approximately 850 px two-column viewport whose plot container is still compact, post-render
+boundary crossings, and mobile-origin exports. These presentation decisions do not change Core
+v0.4.1, the six-part response, plotted data, numerical tables, or client-only privacy.

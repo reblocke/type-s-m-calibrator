@@ -82,10 +82,14 @@ function scenarioTrace(response, key, name, axes, cap = null, showlegend = false
   };
 }
 
-function xAxis(response, title) {
+function xAxis(response, title, compact = false) {
   return {
     gridcolor: "#dce3e5",
-    title: { text: title },
+    title: {
+      font: { size: compact ? 11 : 14 },
+      standoff: compact ? 8 : 15,
+      text: title,
+    },
     type: response.meta.axis_spacing,
     zeroline: false,
   };
@@ -211,10 +215,35 @@ function renderWarnings(response, list) {
   }
 }
 
+export const COMPACT_PLOT_MAX_WIDTH = 480;
+
+function plotContainerWidth(plotElement) {
+  const renderedWidth = plotElement.getBoundingClientRect().width;
+  if (renderedWidth > 0) {
+    return renderedWidth;
+  }
+  const resultsContainer = plotElement.closest(".results");
+  if (!resultsContainer) {
+    return 0;
+  }
+  const styles = globalThis.getComputedStyle(resultsContainer);
+  return Math.max(
+    0,
+    resultsContainer.clientWidth -
+      Number.parseFloat(styles.paddingLeft) -
+      Number.parseFloat(styles.paddingRight),
+  );
+}
+
+export function plotUsesCompactLayout(
+  plotElement,
+  width = plotContainerWidth(plotElement),
+) {
+  return width > 0 && width <= COMPACT_PLOT_MAX_WIDTH;
+}
+
 export async function renderResult(response, elements) {
   const observed = response.grid.observed_exaggeration_optional !== null;
-  const cap = response.meta.plot_exaggeration_cap;
-  const capApplied = response.meta.plot_exaggeration_cap_applied;
   elements.summary.textContent =
     `${response.scenarios.length} assumed-true-effect scenarios at ` +
     `${formatNumber(response.precision.information_multiplier)}x information; ` +
@@ -249,9 +278,25 @@ export async function renderResult(response, elements) {
   renderReviewerChoices(response, elements.reviewerSelect, elements.reviewerText);
   renderWarnings(response, elements.warnings);
 
+  await renderPlot(response, elements.plot);
+}
+
+export async function renderPlot(
+  response,
+  plotElement,
+  {
+    compact = plotUsesCompactLayout(plotElement),
+    height = null,
+    purpose = "live",
+    width = null,
+  } = {},
+) {
   if (!globalThis.Plotly) {
     throw new Error("The plotting library did not load.");
   }
+  const observed = response.grid.observed_exaggeration_optional !== null;
+  const cap = response.meta.plot_exaggeration_cap;
+  const capApplied = response.meta.plot_exaggeration_cap_applied;
   const axes = [
     { x: "x", y: "y" },
     { x: "x2", y: "y2" },
@@ -287,7 +332,10 @@ export async function renderResult(response, elements) {
       scenarioTrace(response, "observed_exaggeration", "Scenario values", axes[3], cap),
     );
   }
-  const xTitle = `Assumed true ${response.meta.effect_label.toLowerCase()}`;
+  const effectLabel = response.meta.effect_label.toLowerCase();
+  const xTitle = compact
+    ? `Assumed true<br>${effectLabel}`
+    : `Assumed true ${effectLabel}`;
   const shapes = [];
   addVerticalShapes(response, axes, shapes);
   shapes.push(
@@ -338,13 +386,31 @@ export async function renderResult(response, elements) {
   }
   const panelTitles = observed
     ? [
-        { text: "A. Selected-claim probability", x: 0.22, y: 1 },
+        {
+          text: compact
+            ? "A. Selected-claim<br>probability"
+            : "A. Selected-claim probability",
+          x: 0.22,
+          y: 1,
+        },
         { text: "B. Type S", x: 0.78, y: 1 },
         { text: "C. Type M", x: 0.22, y: 0.45 },
-        { text: "D. Observed exaggeration", x: 0.78, y: 0.45 },
+        {
+          text: compact
+            ? "D. Observed<br>exaggeration"
+            : "D. Observed exaggeration",
+          x: 0.78,
+          y: 0.45,
+        },
       ]
     : [
-        { text: "A. Selected-claim probability", x: 0.5, y: 0.98 },
+        {
+          text: compact
+            ? "A. Selected-claim<br>probability"
+            : "A. Selected-claim probability",
+          x: 0.5,
+          y: 0.98,
+        },
         { text: "B. Type S", x: 0.5, y: 0.62 },
         { text: "C. Type M", x: 0.5, y: 0.25 },
       ];
@@ -355,65 +421,94 @@ export async function renderResult(response, elements) {
       xref: "paper",
       xanchor: "center",
       yref: "paper",
-      font: { size: 14 },
+      font: { size: compact ? 12 : 14 },
     })),
-    autosize: true,
+    autosize: width === null,
     grid: observed
       ? { columns: 2, pattern: "independent", rows: 2 }
       : { columns: 1, pattern: "independent", rows: 3 },
-    height: observed ? 820 : 1100,
-    legend: { orientation: "h", x: 0, y: 1.08 },
-    margin: { b: 72, l: 72, r: 32, t: capApplied ? 112 : 84 },
+    height: height ?? (observed ? (compact ? 900 : 820) : 1100),
+    legend: {
+      font: { size: compact ? 11 : 12 },
+      orientation: "h",
+      x: compact ? 0.03 : 0,
+      y: compact ? 1.07 : 1.08,
+    },
+    margin: compact
+      ? { b: 80, l: 66, r: 16, t: 176 }
+      : { b: 72, l: 72, r: 32, t: capApplied ? 112 : 84 },
     paper_bgcolor: "#ffffff",
     plot_bgcolor: "#ffffff",
     shapes,
     title: {
       text:
-        "Forward calibration across assumed true effects" +
+        (compact
+          ? "Forward calibration across<br>assumed true effects"
+          : "Forward calibration across assumed true effects") +
         (capApplied
-          ? `<br><sup>Values above ${cap}x are clipped in this plot only; ` +
-            "numeric values remain uncapped.</sup>"
+          ? compact
+            ? `<br><sup>Plot capped above ${cap}x; numeric values remain uncapped.</sup>`
+            : `<br><sup>Values above ${cap}x are clipped in this plot only; ` +
+              "numeric values remain uncapped.</sup>"
           : ""),
+      font: { size: compact ? 16 : 17 },
       x: 0.5,
+      y: compact ? 0.98 : undefined,
+      yanchor: compact ? "top" : undefined,
+      yref: compact ? "container" : undefined,
     },
-    xaxis: xAxis(response, xTitle),
-    xaxis2: xAxis(response, xTitle),
-    xaxis3: xAxis(response, xTitle),
+    xaxis: xAxis(response, xTitle, compact),
+    xaxis2: xAxis(response, xTitle, compact),
+    xaxis3: xAxis(response, xTitle, compact),
     yaxis: {
       gridcolor: "#dce3e5",
       range: [0, 1],
       tickformat: ".0%",
-      title: { text: "Probability" },
+      title: { font: { size: compact ? 11 : 14 }, text: "Probability" },
     },
     yaxis2: {
       gridcolor: "#dce3e5",
       range: [0, 1],
       tickformat: ".0%",
-      title: { text: "Conditional probability" },
+      title: {
+        font: { size: compact ? 11 : 14 },
+        text: "Conditional probability",
+      },
     },
     yaxis3: {
       gridcolor: "#dce3e5",
       range: [0, cap],
       ticksuffix: "x",
-      title: { text: "Type M (x-fold)" },
+      title: { font: { size: compact ? 11 : 14 }, text: "Type M (x-fold)" },
     },
   };
+  if (width !== null) {
+    layout.width = width;
+  }
   if (observed) {
-    layout.xaxis4 = xAxis(response, xTitle);
+    layout.xaxis4 = xAxis(response, xTitle, compact);
     layout.yaxis4 = {
       gridcolor: "#dce3e5",
       range: [0, cap],
       ticksuffix: "x",
-      title: { text: "Observed exaggeration (x-fold)" },
+      title: {
+        font: { size: compact ? 11 : 14 },
+        text: compact
+          ? "Observed exaggeration<br>(x-fold)"
+          : "Observed exaggeration (x-fold)",
+      },
     };
   }
+  plotElement.dataset.plotLayout = compact ? "compact" : "noncompact";
+  plotElement.dataset.plotPurpose = purpose;
   await globalThis.Plotly.react(
-    elements.plot,
+    plotElement,
     traces,
     layout,
     {
+      displayModeBar: compact ? false : "hover",
       displaylogo: false,
-      responsive: true,
+      responsive: purpose === "live",
       scrollZoom: false,
     },
   );

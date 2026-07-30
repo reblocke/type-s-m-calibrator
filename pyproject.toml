@@ -1,14 +1,40 @@
 [project]
-name = "scientific-applet-template-package"
+name = "type-s-m-calibrator"
 version = "0.1.0"
-description = "Reusable client-side Python scaffold for a focused scientific applet"
+description = "Forward Type S and Type M design calibration under one-parameter Wald models"
 readme = "README.md"
 requires-python = ">=3.12"
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
   { name = "Brian Locke" },
 ]
-dependencies = []
+maintainers = [
+  { name = "Brian Locke" },
+]
+keywords = [
+  "type-s-error",
+  "type-m-error",
+  "design-calibration",
+  "wald-inference",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+  "Typing :: Typed",
+]
+dependencies = [
+  "wald-inference @ https://github.com/reblocke/wald-inference-core/releases/download/v0.3.0/wald_inference-0.3.0-py3-none-any.whl#sha256=630fdece13c2940f751d1f5d3a4d6477182dbb099131a9907ceef7067348f939",
+]
+
+[project.urls]
+Repository = "https://github.com/reblocke/type-s-m-calibrator"
+Issues = "https://github.com/reblocke/type-s-m-calibrator/issues"
+Documentation = "https://github.com/reblocke/type-s-m-calibrator/blob/main/docs/SCIENTIFIC_SCOPE.md"
+Hosted = "https://reblocke.github.io/type-s-m-calibrator/"
 
 [dependency-groups]
 dev = [
@@ -47,4 +73,4 @@ src = ["src", "scripts", "tests"]
 select = ["E", "F", "I", "UP", "B"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["template_applet"]
+known-first-party = ["type_sm_calibrator"]

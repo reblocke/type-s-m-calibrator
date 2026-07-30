@@ -60,15 +60,57 @@ function loadImage(dataUrl) {
   });
 }
 
-export function exportCsv(rows, appTitle) {
+function drawWrappedText(context, text, x, y, maxWidth, lineHeight, maxLines) {
+  const words = text.split(/\s+/);
+  let line = "";
+  let lineIndex = 0;
+  for (const word of words) {
+    const candidate = line ? `${line} ${word}` : word;
+    if (context.measureText(candidate).width <= maxWidth) {
+      line = candidate;
+      continue;
+    }
+    context.fillText(line, x, y + lineIndex * lineHeight);
+    lineIndex += 1;
+    if (lineIndex >= maxLines) {
+      return;
+    }
+    line = word;
+  }
+  if (line && lineIndex < maxLines) {
+    context.fillText(line, x, y + lineIndex * lineHeight);
+  }
+}
+
+export function gridRows(response) {
+  const observed = response.grid.observed_exaggeration_optional;
+  return response.grid.true_effect_display.map((value, index) => ({
+    true_effect_display: value,
+    true_effect_working: response.grid.true_effect_working[index],
+    standardized_true_effect: response.grid.standardized_true_effect[index],
+    selected_claim_probability: response.grid.selected_claim_probability[index],
+    type_s: response.grid.type_s[index],
+    type_m: response.grid.type_m[index],
+    expected_selected_abs_z: response.grid.expected_selected_abs_z[index],
+    observed_exaggeration: observed === null ? null : observed[index],
+  }));
+}
+
+export function exportCsv(response, appTitle) {
   const columns = [
-    { key: "label", label: "Label" },
-    { key: "value", label: "Value" },
+    { key: "true_effect_display", label: "true_effect_display" },
+    { key: "true_effect_working", label: "true_effect_working" },
+    { key: "standardized_true_effect", label: "standardized_true_effect" },
+    { key: "selected_claim_probability", label: "selected_claim_probability" },
+    { key: "type_s", label: "type_s" },
+    { key: "type_m", label: "type_m" },
+    { key: "expected_selected_abs_z", label: "expected_selected_abs_z" },
+    { key: "observed_exaggeration", label: "observed_exaggeration" },
   ];
-  const csv = csvFromRows(columns, rows);
+  const csv = csvFromRows(columns, gridRows(response));
   downloadBlob(
     new Blob([csv], { type: "text/csv;charset=utf-8" }),
-    `${filenameSlug(appTitle)}-results.csv`,
+    `${filenameSlug(appTitle)}-curves.csv`,
   );
 }
 
@@ -85,27 +127,27 @@ export async function exportFigurePng(plotElement, appTitle) {
 export async function exportDashboardPng(plotElement, summary, appTitle) {
   const plotDataUrl = await globalThis.Plotly.toImage(plotElement, {
     format: "png",
-    height: 800,
+    height: 900,
     scale: 1,
     width: 1200,
   });
   const plotImage = await loadImage(plotDataUrl);
   const canvas = document.createElement("canvas");
   canvas.width = 1400;
-  canvas.height = 1100;
+  canvas.height = 1280;
   const context = canvas.getContext("2d");
   context.fillStyle = "#ffffff";
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = "#17202a";
   context.font = "700 42px system-ui";
   context.fillText(appTitle, 80, 80, 1240);
-  context.font = "26px system-ui";
-  context.fillText(summary, 80, 140, 1240);
-  context.drawImage(plotImage, 100, 210, 1200, 800);
+  context.font = "24px system-ui";
+  drawWrappedText(context, summary, 80, 135, 1240, 34, 3);
+  context.drawImage(plotImage, 100, 270, 1200, 900);
   const blob = await canvasBlob(canvas);
   downloadBlob(blob, `${filenameSlug(appTitle)}-dashboard.png`);
 }
 
-export async function copyCaption(caption) {
-  await navigator.clipboard.writeText(caption);
+export async function copyText(text) {
+  await navigator.clipboard.writeText(text);
 }

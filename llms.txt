@@ -1,24 +1,54 @@
-# Scientific Applet Template
+# Type S/M Calibrator
 
-Purpose: reusable static, client-side, Python-first scientific applet engineering scaffold.
+Purpose: focused static app for forward selected-claim, Type S, and Type M
+calibration under one-parameter Wald models.
 
-Important boundaries:
-- The repository implements no scientific formula.
-- The two-number addition is a replace-me demonstration only.
-- Python under `src/template_applet/` is source of truth.
-- `web/assets/py/` is generated from the locked environment and ignored.
-- Browser requests and responses use a strict JSON worker contract.
-- There is no backend, persistence, telemetry, cookie, or input-bearing URL.
+Interpretation:
+- Every x-axis value is an assumed true effect.
+- Outputs are repeated-study operating characteristics, not posterior
+  probabilities and not evidence conditional on observed data.
+- Type S is conditional wrong-sign probability among selected claims.
+- Type M is conditional expected selected magnitude divided by true
+  working-scale magnitude.
+- Ratio measures use log-scale distance from the null.
+- Type S/M and observed exaggeration are null at or near the null; Type S/M
+  may also be unavailable when selected-claim probability is numerically zero.
+- Observed exaggeration is separate from Type M.
+
+Architecture:
+- `wald-inference` 0.3.0 is the only numerical/formula authority and is pinned
+  to its official release wheel by URL and SHA-256.
+- `src/type_sm_calibrator/` owns validation, orchestration, strict JSON,
+  reviewer text, and warnings.
+- `web/` owns client-only presentation and exports.
+- `web/assets/py/` is generated and ignored.
+- There is no backend, persistence, telemetry, cookie, upload, or input-bearing
+  URL.
+
+Scenario/export contract:
+- Active claim thresholds are rule inputs and plot markers, not automatic
+  assumed-truth scenarios.
+- Reviewer defaults prioritize user, then non-null reference, then observed
+  scenarios; observed-as-truth remains explicitly optimistic/circular.
+- The curve CSV has eight stable numeric columns and must travel with the
+  caption or focused JSON for rule and conditioning context.
+- Plot values above 10x are clipped only for display; standalone PNGs disclose
+  clipping and all numeric outputs remain uncapped.
+
+Scope exclusions:
+- no inverse precision or exact sample-size solver;
+- no observed-data confidence/support panels;
+- no posterior probability;
+- no clinical validation or clinical guidance.
 
 Key files:
-- `README.md`: initialization and architecture.
-- `docs/TEMPLATE_USAGE.md`: downstream author workflow.
-- `docs/SCIENTIFIC_SCOPE.md`: required scientific scope prompts.
-- `docs/VALIDATION.md`: validation plan and evidence prompts.
-- `docs/PRIVACY.md`: data-flow boundary.
-- `browser-stage.toml`: exact package and Pyodide configuration.
-- `scripts/stage_browser_packages.py`: deterministic staging.
-- `scripts/initialize_template.py`: guarded identity initializer.
+- `README.md`: user and developer front door.
+- `docs/SCIENTIFIC_SCOPE.md`: model, six rules, metrics, working scales, and
+  limitations.
+- `docs/VALIDATION.md`: frozen parity and browser gates.
+- `docs/RUNTIME_DEPENDENCIES.md`: core/artifact and license provenance.
+- `docs/PRIVACY.md`: client-only data flow.
+- `browser-stage.toml`: exact browser package configuration.
 
 Canonical verification:
 `uv sync --locked && uv run playwright install chromium webkit && make verify`

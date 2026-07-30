@@ -1,11 +1,11 @@
 {
-  "initialized": false,
+  "initialized": true,
   "schema_version": 1,
   "values": {
-    "app_title": "Scientific Applet Template",
-    "description": "Reusable client-side Python scaffold for a focused scientific applet",
-    "distribution_name": "scientific-applet-template-package",
-    "import_name": "template_applet",
-    "repository_name": "scientific-applet-template"
+    "app_title": "Type S/M Calibrator",
+    "description": "Forward Type S and Type M design calibration under one-parameter Wald models",
+    "distribution_name": "type-s-m-calibrator",
+    "import_name": "type_sm_calibrator",
+    "repository_name": "type-s-m-calibrator"
   }
 }

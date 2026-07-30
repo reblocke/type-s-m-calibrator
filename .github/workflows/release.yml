@@ -27,8 +27,8 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist
-          git archive --format=tar --prefix="scientific-applet-template-${GITHUB_REF_NAME}/" HEAD |
-            gzip -n > "dist/scientific-applet-template-${GITHUB_REF_NAME}.tar.gz"
+          git archive --format=tar --prefix="type-s-m-calibrator-${GITHUB_REF_NAME}/" HEAD |
+            gzip -n > "dist/type-s-m-calibrator-${GITHUB_REF_NAME}.tar.gz"
           cp web/assets/py/manifest.json \
             "dist/browser-stage-manifest-${GITHUB_REF_NAME}.json"
           cd dist

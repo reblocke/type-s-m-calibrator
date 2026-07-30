@@ -8,13 +8,13 @@ globalThis.__mockCalculateDelayMs = 0;
 function responseForRequest() {
   return {
     meta: {
-      app_version: "0.1.0",
+      app_version: "0.1.1",
       axis_spacing: "linear",
       caption:
         "All values are assumed true effects. Values above 10x are clipped in the plot only.",
       conditioning_statement:
         "All curves condition on each x-axis value as the assumed true effect.",
-      core_version: "0.3.0",
+      core_version: "0.4.1",
       effect_family: "additive",
       effect_label: "Mean difference",
       effect_type: "mean_difference",
@@ -147,8 +147,8 @@ class FakeWorker {
         message.type === "initialize"
           ? {
               packages: [
-                { distribution: "type-s-m-calibrator", version: "0.1.0" },
-                { distribution: "wald-inference", version: "0.3.0" },
+                { distribution: "type-s-m-calibrator", version: "0.1.1" },
+                { distribution: "wald-inference", version: "0.4.1" },
               ],
             }
           : responseForRequest();
@@ -168,6 +168,9 @@ globalThis.Worker = FakeWorker;
 
 PLOTLY_STUB = """
 globalThis.Plotly = {
+  Plots: {
+    resize: async () => {},
+  },
   react: async (element, _traces, layout) => {
     const container = document.createElement("div");
     container.className = "plot-container";

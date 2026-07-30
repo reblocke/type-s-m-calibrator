@@ -16,7 +16,7 @@ Interpretation:
 - Observed exaggeration is separate from Type M.
 
 Architecture:
-- `wald-inference` 0.3.0 is the only numerical/formula authority and is pinned
+- `wald-inference` 0.4.1 is the only numerical/formula authority and is pinned
   to its official release wheel by URL and SHA-256.
 - `src/type_sm_calibrator/` owns validation, orchestration, strict JSON,
   reviewer text, and warnings.

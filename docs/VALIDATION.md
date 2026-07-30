@@ -3,9 +3,13 @@
 ## Validation boundary
 
 The app validates orchestration and presentation around `wald-inference`; it
-does not duplicate core formulas. The exact official 0.3.0 artifact and its
+does not duplicate core formulas. The exact official 0.4.1 artifact and its
 numerical release tests are authoritative for normal tails, selection
 intervals, truncated normal moments, transforms, and CI reconstruction.
+
+Core v0.4.1 repairs active-threshold inverse-precision bracketing, extreme pairwise support
+comparison, and strict ratio back-transform underflow while retaining the forward selection and
+Type S/M definitions used here. This app adds no local formula.
 
 Engineering and numerical parity do not establish clinical validity or the
 scientific appropriateness of a user threshold.
@@ -91,7 +95,7 @@ smoke.
 
 Before release:
 
-1. pin the official `wald-inference` 0.3.0 wheel URL and SHA-256 in
+1. pin the official `wald-inference` 0.4.1 wheel URL and SHA-256 in
    `pyproject.toml`, `uv.lock`, and `browser-stage.toml`;
 2. verify the upstream changelog and public API;
 3. stage from a clean checkout with no sibling core repository;
@@ -120,10 +124,10 @@ run, hosted smoke, and remaining limitations. Local results are recorded in
 the pull request and release handoff; GitHub Actions reruns the complete gates
 from the reviewed commit.
 
-The 2026-07-30 local release-candidate run used the official Core 0.3.0 wheel
+The 2026-07-30 local release-candidate run used the official Core 0.4.1 wheel
 and passed:
 
-- 72 non-E2E tests through `make verify`;
+- 73 non-E2E tests through `make verify`;
 - 18 real Chromium E2E tests covering the six-rule matrix and exports;
 - one real WebKit worker/calculation smoke;
 - eight focused scientific-reference and frozen-regression tests;
@@ -133,6 +137,6 @@ and passed:
 
 The generated browser stage contained five app files and 14 Core files, with
 Core package SHA-256
-`ae04b9306a2d5290c69dd3d4d7b37af5c5b8020c34419cbae2baa422ab32af1f`.
+`44c52ba0189155e0d976e283d383f17f3db0679563ec6dc6d45b9829c4a43b4d`.
 Because generated output records the current Git commit, final source-commit
 and bundle hashes are regenerated and recorded by the tag workflow.

@@ -86,7 +86,7 @@ def test_related_wald_tools_are_exact_in_readme_and_footer() -> None:
         "https://reblocke.github.io/precision-guardrail-planner/",
         "https://reblocke.github.io/conf_curve_likelihood/",
         "https://github.com/reblocke/type-s-m-calibrator",
-        "https://github.com/reblocke/wald-inference-core/releases/tag/v0.3.0",
+        "https://github.com/reblocke/wald-inference-core/releases/tag/v0.4.1",
     ]
 
     assert "## Related Wald tools" in readme
@@ -94,8 +94,8 @@ def test_related_wald_tools_are_exact_in_readme_and_footer() -> None:
     for link in links:
         assert link in readme
         assert f'href="{link}"' in footer
-    assert "wald-inference Core v0.3.0" in readme
-    assert "wald-inference Core v0.3.0" in footer
+    assert "wald-inference Core v0.4.1" in readme
+    assert "wald-inference Core v0.4.1" in footer
     assert "[Privacy](docs/PRIVACY.md)" in readme
     assert (
         'href="https://github.com/reblocke/type-s-m-calibrator/blob/main/docs/PRIVACY.md"' in footer

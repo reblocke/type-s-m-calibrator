@@ -1,6 +1,6 @@
 [project]
 name = "type-s-m-calibrator"
-version = "0.1.0"
+version = "0.1.1"
 description = "Forward Type S and Type M design calibration under one-parameter Wald models"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -27,7 +27,7 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-  "wald-inference @ https://github.com/reblocke/wald-inference-core/releases/download/v0.3.0/wald_inference-0.3.0-py3-none-any.whl#sha256=630fdece13c2940f751d1f5d3a4d6477182dbb099131a9907ceef7067348f939",
+  "wald-inference @ https://github.com/reblocke/wald-inference-core/releases/download/v0.4.1/wald_inference-0.4.1-py3-none-any.whl#sha256=d7272023f65088729d3ff997cab7cac57b84f22ac6108244ec2170434557d99b",
 ]
 
 [project.urls]

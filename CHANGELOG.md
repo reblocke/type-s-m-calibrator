@@ -5,6 +5,16 @@ All notable changes use a release-oriented record here. This repository follows
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-30
+
+- Publish the related-tool-navigation Pages source as a checksum-addressed patch release so the
+  deployed app, annotated tag, and release artifacts resolve to the same commit.
+- Constrain the two-column layout and resize Plotly after the results panel is visible so the
+  calculated app remains contained at a 390 px viewport; cover this with a browser regression.
+- Adopt the checksum-bound `wald-inference` v0.4.1 wheel with its precision-bracketing,
+  extreme-support, and strict ratio-underflow repairs. The six-rule focused contract and exports
+  remain unchanged; no formula is implemented locally.
+
 ## [0.1.0] - 2026-07-30
 
 - Builds the initial focused forward Type S/M calibrator.
@@ -20,5 +30,6 @@ All notable changes use a release-oriented record here. This repository follows
 - Verifies deterministic clean staging, Chromium and WebKit behavior, strict
   error handling, exports, accessibility, and client-only privacy.
 
-[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/reblocke/type-s-m-calibrator/releases/tag/v0.1.0

@@ -3,17 +3,17 @@
 ## Scientific core
 
 `wald-inference` is the sole runtime numerical/formula authority. Release
-0.3.0 supplies effect transformations, 95% CI reconstruction, information
+0.4.1 supplies effect transformations, 95% CI reconstruction, information
 scaling, all six selection rules, canonical selected-claim probability, and
 Type S/M design metrics.
 
 The adopted official artifact is:
 
 ```text
-Release: https://github.com/reblocke/wald-inference-core/releases/tag/v0.3.0
-Wheel:   https://github.com/reblocke/wald-inference-core/releases/download/v0.3.0/wald_inference-0.3.0-py3-none-any.whl
-SHA-256: 630fdece13c2940f751d1f5d3a4d6477182dbb099131a9907ceef7067348f939
-Tag commit: 9618abf3a632838794e9e40752af7823e77115cb
+Release: https://github.com/reblocke/wald-inference-core/releases/tag/v0.4.1
+Wheel:   https://github.com/reblocke/wald-inference-core/releases/download/v0.4.1/wald_inference-0.4.1-py3-none-any.whl
+SHA-256: d7272023f65088729d3ff997cab7cac57b84f22ac6108244ec2170434557d99b
+Tag commit: f4613177b6dc81d194aa70762152de2bfa86663b
 Retrieved: 2026-07-30
 License: MIT
 ```
@@ -28,10 +28,11 @@ The URL, version, and SHA-256 are recorded identically in:
 No local path, sibling checkout, or mutable branch is an acceptable release
 dependency.
 
-The upstream v0.3.0 changelog and release metadata were reviewed before
-adoption. The release adds canonical selected-claim probability curves and
-critical-effect inversion while retaining the selected-claim and Type S/M
-interfaces used here.
+The upstream v0.4.1 changelog and release metadata were reviewed before
+adoption. The release repairs active-threshold inverse-precision bracketing,
+extreme pairwise support comparison, and strict ratio back-transform
+underflow while retaining the selected-claim and Type S/M interfaces used
+here.
 
 ## Browser runtime
 

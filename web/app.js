@@ -134,6 +134,10 @@ form.addEventListener("submit", async (event) => {
     }
     emptyState.hidden = true;
     result.hidden = false;
+    await new Promise((resolve) =>
+      globalThis.requestAnimationFrame(resolve),
+    );
+    await globalThis.Plotly.Plots.resize(plot);
     currentResponse = response;
     setExportAvailability(true);
     setStatus(status, "Calculation complete.", "ready");

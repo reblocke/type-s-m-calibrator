@@ -67,9 +67,9 @@ browser form
   records file/package/bundle SHA-256 hashes.
 - `web/assets/py/` is generated, ignored, and never hand-edited.
 
-The app pins the official `wald-inference` 0.3.0 release wheel by URL and
+The app pins the official `wald-inference` 0.4.1 release wheel by URL and
 SHA-256
-`630fdece13c2940f751d1f5d3a4d6477182dbb099131a9907ceef7067348f939`.
+`d7272023f65088729d3ff997cab7cac57b84f22ac6108244ec2170434557d99b`.
 No sibling checkout or mutable branch is a runtime dependency.
 
 ## Inputs and interpretation
@@ -147,7 +147,7 @@ See [Validation](docs/VALIDATION.md),
 [Repository](https://github.com/reblocke/type-s-m-calibrator)
 
 Numerical authority:
-[wald-inference Core v0.3.0](https://github.com/reblocke/wald-inference-core/releases/tag/v0.3.0).
+[wald-inference Core v0.4.1](https://github.com/reblocke/wald-inference-core/releases/tag/v0.4.1).
 [Privacy](docs/PRIVACY.md) documents the client-side, no-storage boundary.
 
 ## Method reference
@@ -157,7 +157,7 @@ M (Magnitude) Errors. *Perspectives on Psychological Science*. 2014;9(6):
 641–651. <https://doi.org/10.1177/1745691614551642>.
 
 The paper motivates the Type S/M framework. Core APIs and their tests are the
-implementation authority; the exact pinned 0.3.0 release artifact is the
+implementation authority; the exact pinned 0.4.1 release artifact is the
 runtime authority. No external figure, table, or substantial text is copied
 here.
 

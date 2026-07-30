@@ -25,16 +25,21 @@ selection rules, canonical selected-claim probabilities, Type S/M metrics, and
 the near-null tolerance. The app may validate and assemble inputs but must not
 implement or copy a Wald probability or Type S/M formula.
 
-Release and browser execution use the official `wald-inference` 0.3.0 wheel:
+Release and browser execution use the official `wald-inference` 0.4.1 wheel:
 
 ```text
-https://github.com/reblocke/wald-inference-core/releases/download/v0.3.0/wald_inference-0.3.0-py3-none-any.whl
-SHA-256 630fdece13c2940f751d1f5d3a4d6477182dbb099131a9907ceef7067348f939
+https://github.com/reblocke/wald-inference-core/releases/download/v0.4.1/wald_inference-0.4.1-py3-none-any.whl
+SHA-256 d7272023f65088729d3ff997cab7cac57b84f22ac6108244ec2170434557d99b
 ```
 
 The annotated upstream tag peels to
-`9618abf3a632838794e9e40752af7823e77115cb`. The same URL, version, and
+`f4613177b6dc81d194aa70762152de2bfa86663b`. The same URL, version, and
 checksum are bound in package metadata, `uv.lock`, and `browser-stage.toml`.
+
+The initial v0.1.0 app used Core v0.3.0. Patch release v0.1.1 adopts v0.4.1 because it repairs an
+active-threshold inverse-precision bracket, extreme finite pairwise support comparison, and strict
+ratio back-transform underflow while retaining forward selection and Type S/M definitions. The
+repairs remain in Core; no corresponding formula is copied into this app.
 
 The app uses canonical `selected_claim_probability` for its probability
 output. It uses `DesignMetric` only for Type S, Type M, expected selected
@@ -42,7 +47,7 @@ absolute Z, and observed exaggeration. A tight comparison detects unexpected
 drift without requiring byte equality from the frozen legacy probability
 field.
 
-The released v0.3 canonical probability kernel and the retained Type S/M
+The canonical probability kernel introduced in v0.3 and retained in v0.4.1, and the Type S/M
 metric probability can differ by directed-rounding noise. An official-wheel
 25,000-case sweep across all six rules found no difference outside relative
 tolerance `3e-14` with absolute tolerance `3e-16`; the prior `2e-14` bound

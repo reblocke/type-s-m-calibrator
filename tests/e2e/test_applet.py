@@ -35,8 +35,8 @@ def test_worker_loads_and_calculates(page: Page, app_url: str) -> None:
     expect(page.locator("#plot")).to_contain_text("B. Type S")
     expect(page.locator("#plot")).to_contain_text("C. Type M")
     expect(page.locator("#observed-panel-note")).to_be_visible()
-    expect(page.locator("#runtime-versions")).to_contain_text("type-s-m-calibrator 0.1.0")
-    expect(page.locator("#runtime-versions")).to_contain_text("wald-inference 0.3.0")
+    expect(page.locator("#runtime-versions")).to_contain_text("type-s-m-calibrator 0.1.1")
+    expect(page.locator("#runtime-versions")).to_contain_text("wald-inference 0.4.1")
 
 
 def test_rule_controls_are_exactly_activated(page: Page, app_url: str) -> None:
@@ -241,3 +241,6 @@ def test_mobile_keyboard_and_privacy_smoke(page: Page, app_url: str) -> None:
     assert "12345.67891" not in serialized_requests
     expect(page.locator(".controls")).to_be_visible()
     expect(page.locator(".results")).to_be_visible()
+    assert page.evaluate(
+        "document.documentElement.scrollWidth <= document.documentElement.clientWidth"
+    )

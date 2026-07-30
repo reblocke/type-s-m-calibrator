@@ -5,6 +5,15 @@ All notable changes use a release-oriented record here. This repository follows
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-07-30
+
+- State the declared app version, canonical release record, experimental release maturity,
+  versioned publication-state source, and exact tagged-release or commit citation guidance in the
+  README, guarded by a repository policy regression.
+- Synchronize package, lock, browser staging, runtime displays and tests, and machine-readable
+  citation metadata at 0.1.3. Scientific calculations, the focused contract, UI behavior, and the
+  checksum-bound `wald-inference` v0.4.1 authority are unchanged.
+
 ## [0.1.2] - 2026-07-30
 
 - Make calculated plots readable whenever their actual container is no wider than 480 px,
@@ -42,7 +51,8 @@ All notable changes use a release-oriented record here. This repository follows
 - Verifies deterministic clean staging, Chromium and WebKit behavior, strict
   error handling, exports, accessibility, and client-only privacy.
 
-[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/reblocke/type-s-m-calibrator/releases/tag/v0.1.0

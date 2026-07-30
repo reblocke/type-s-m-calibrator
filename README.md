@@ -17,6 +17,18 @@ evidence conditional on an observed dataset.
 
 Hosted app: <https://reblocke.github.io/type-s-m-calibrator/>.
 
+## Version, release, and citation
+
+Current app version: **0.1.3**.
+
+Canonical release record:
+[`v0.1.3`](https://github.com/reblocke/type-s-m-calibrator/releases/tag/v0.1.3).
+Release maturity: experimental software. GitHub publication state is recorded on the versioned
+release page.
+
+For software citation, use [`CITATION.cff`](CITATION.cff) and cite the exact tagged release used.
+If you use unreleased code, cite the exact repository commit instead.
+
 ## What it provides
 
 - direct working-scale SE or reported 95% CI precision input;

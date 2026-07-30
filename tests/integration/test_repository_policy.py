@@ -15,6 +15,7 @@ def test_makefile_exposes_required_commands() -> None:
         "fmt-check:",
         "lint:",
         "test:",
+        "scientific-test:",
         "e2e:",
         "verify:",
         "serve:",
@@ -58,3 +59,19 @@ def test_generated_stage_is_ignored_and_not_tracked() -> None:
         ).stdout
         == ""
     )
+
+
+def test_public_documents_have_no_unresolved_template_prompts() -> None:
+    public_files = [
+        PROJECT_ROOT / "README.md",
+        PROJECT_ROOT / "CHANGELOG.md",
+        PROJECT_ROOT / "CITATION.cff",
+        PROJECT_ROOT / "llms.txt",
+        *sorted((PROJECT_ROOT / "docs").glob("*.md")),
+    ]
+    combined = "\n".join(path.read_text(encoding="utf-8") for path in public_files)
+
+    assert "AUTHOR ACTION REQUIRED" not in combined
+    assert "replace-me" not in combined.lower()
+    assert "arithmetic demonstration" not in combined.lower()
+    assert "engineering scaffold only" not in combined.lower()

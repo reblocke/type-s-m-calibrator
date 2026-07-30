@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import csv
 from pathlib import Path
 
+import pytest
 from playwright.sync_api import Page, expect
 
 
@@ -14,61 +16,167 @@ def _ready(page: Page, app_url: str) -> None:
     )
 
 
+def _calculate(page: Page) -> None:
+    page.locator("#calculate").click()
+    expect(page.locator("#runtime-status")).to_have_text(
+        "Calculation complete.",
+        timeout=30_000,
+    )
+
+
 def test_worker_loads_and_calculates(page: Page, app_url: str) -> None:
     _ready(page, app_url)
+    _calculate(page)
 
-    page.locator("#calculate").click()
-
-    expect(page.locator("#runtime-status")).to_have_text("Calculation complete.")
-    expect(page.locator("#result-summary")).to_contain_text("2 + 3 = 5")
-    expect(page.locator("#result-table tbody tr")).to_have_count(3)
+    expect(page.locator("#result-summary")).to_contain_text("3 assumed-true-effect scenarios")
+    expect(page.locator("#scenario-table tbody tr")).to_have_count(3)
     expect(page.locator("#plot .plot-container")).to_be_visible()
-    expect(page.locator("#runtime-versions")).to_contain_text("0.1.0")
+    expect(page.locator("#plot")).to_contain_text("A. Selected-claim probability")
+    expect(page.locator("#plot")).to_contain_text("B. Type S")
+    expect(page.locator("#plot")).to_contain_text("C. Type M")
+    expect(page.locator("#observed-panel-note")).to_be_visible()
+    expect(page.locator("#runtime-versions")).to_contain_text("type-s-m-calibrator 0.1.0")
+    expect(page.locator("#runtime-versions")).to_contain_text("wald-inference 0.3.0")
+
+
+def test_rule_controls_are_exactly_activated(page: Page, app_url: str) -> None:
+    _ready(page, app_url)
+    expect(page.locator("#claim-direction-field")).to_be_hidden()
+    expect(page.locator("#claim-threshold-field")).to_be_hidden()
+
+    page.locator("#selection-rule").select_option("ci_excludes_mcid")
+    expect(page.locator("#claim-direction-field")).to_be_visible()
+    expect(page.locator("#claim-threshold-field")).to_be_visible()
+    expect(page.locator("#active-rule-controls")).to_contain_text(
+        "Alpha, claim direction, claim threshold"
+    )
+
+    page.locator("#selection-rule").select_option("one_sided_negative_p_lt_alpha")
+    expect(page.locator("#claim-direction-field")).to_be_hidden()
+    expect(page.locator("#claim-threshold-field")).to_be_hidden()
+    expect(page.locator("#active-rule-controls")).to_have_text("Active rule controls: Alpha.")
+
+
+@pytest.mark.parametrize(
+    "rule",
+    [
+        "two_sided_p_lt_alpha",
+        "one_sided_positive_p_lt_alpha",
+        "one_sided_negative_p_lt_alpha",
+        "ci_excludes_null_in_beneficial_direction",
+        "estimate_exceeds_mcid_and_p_lt_alpha",
+        "ci_excludes_mcid",
+    ],
+)
+def test_all_six_rules_calculate_in_browser(
+    page: Page,
+    app_url: str,
+    rule: str,
+) -> None:
+    _ready(page, app_url)
+    page.locator("#selection-rule").select_option(rule)
+    if rule in {
+        "estimate_exceeds_mcid_and_p_lt_alpha",
+        "ci_excludes_mcid",
+    }:
+        page.locator("#claim-threshold").fill("0.2")
+    _calculate(page)
+
+    expect(page.locator("#rule-summary")).to_contain_text("alpha")
+    expect(page.locator("#scenario-table tbody tr")).not_to_have_count(0)
+
+
+def test_ci_mode_and_ratio_mode_are_explicit(page: Page, app_url: str) -> None:
+    _ready(page, app_url)
+    page.locator("#precision-mode").select_option("ci_95")
+    expect(page.locator("#direct-se-fields")).to_be_hidden()
+    expect(page.locator("#ci-fields")).to_be_visible()
+    _calculate(page)
+    expect(page.locator("#precision-summary")).to_contain_text("reported 95% CI")
+
+    page.locator("#effect-type").select_option("odds_ratio")
+    expect(page.locator("#null-value")).to_have_value("1")
+    expect(page.locator("#ci-lower")).to_have_value("1.2")
+    expect(page.locator("#ci-upper")).to_have_value("2.7")
+    expect(page.locator("#axis-spacing-note")).to_contain_text("logarithmic")
+    _calculate(page)
+    expect(page.locator("#precision-summary")).to_contain_text("reported 95% CI")
 
 
 def test_validation_error_and_worker_recovery(page: Page, app_url: str) -> None:
     _ready(page, app_url)
-    page.locator("#first-value").fill("1e308")
-    page.locator("#second-value").fill("1e308")
+    page.locator("#standard-error").fill("0")
     page.locator("#calculate").click()
 
-    expect(page.locator("#error-summary")).to_contain_text("total must be finite")
+    expect(page.locator("#error-summary")).to_contain_text("must be positive")
     expect(page.locator("#runtime-status")).to_have_attribute("data-state", "error")
 
-    page.locator("#first-value").fill("4")
-    page.locator("#second-value").fill("6")
-    page.locator("#calculate").click()
+    page.locator("#standard-error").fill("0.2")
+    _calculate(page)
 
     expect(page.locator("#runtime-status")).to_have_text("Calculation complete.")
-    expect(page.locator("#result-summary")).to_contain_text("4 + 6 = 10")
+    expect(page.locator("#result-summary")).to_contain_text("assumed-true-effect scenarios")
 
 
 def test_input_errors_link_to_controls(page: Page, app_url: str) -> None:
     _ready(page, app_url)
-    page.locator("#first-value").fill("")
+    page.locator("#null-value").fill("")
     page.locator("#calculate").click()
 
     expect(page.locator("#error-summary")).to_be_visible()
-    expect(page.locator("#error-summary a")).to_have_attribute("href", "#first-value")
-    expect(page.locator("#first-value")).to_have_attribute("aria-invalid", "true")
+    expect(page.locator("#error-summary a")).to_have_attribute("href", "#null-value")
+    expect(page.locator("#null-value")).to_have_attribute("aria-invalid", "true")
+
+
+def test_optional_observed_estimate_adds_panel_d_and_reviewer_text(
+    page: Page,
+    app_url: str,
+) -> None:
+    page.context.grant_permissions(
+        ["clipboard-read", "clipboard-write"],
+        origin=app_url.rstrip("/"),
+    )
+    _ready(page, app_url)
+    page.locator("#observed-estimate").fill("0.42")
+    _calculate(page)
+
+    expect(page.locator("#scenario-table tbody tr")).to_have_count(4)
+    expect(page.locator("#plot")).to_contain_text("D. Observed exaggeration")
+    expect(page.locator("#observed-panel-note")).to_be_hidden()
+    expect(page.locator("#warnings-list")).to_contain_text("not Type M")
+    page.locator("#copy-reviewer").click()
+    expect(page.locator("#runtime-status")).to_have_text("Reviewer text copied.")
+    clipboard = page.evaluate("navigator.clipboard.readText()")
+    assert "not posterior probabilities" in clipboard
 
 
 def test_csv_png_and_caption_exports(page: Page, app_url: str, tmp_path: Path) -> None:
     page.context.grant_permissions(
-        ["clipboard-read", "clipboard-write"], origin=app_url.rstrip("/")
+        ["clipboard-read", "clipboard-write"],
+        origin=app_url.rstrip("/"),
     )
     _ready(page, app_url)
-    page.locator("#calculate").click()
-    expect(page.locator("#runtime-status")).to_have_text("Calculation complete.")
+    _calculate(page)
 
     with page.expect_download() as csv_info:
         page.locator("#export-csv").click()
     csv_download = csv_info.value
     csv_path = tmp_path / csv_download.suggested_filename
     csv_download.save_as(csv_path)
-    assert csv_path.read_bytes() == (
-        b"Label,Value\r\nFirst value,2\r\nSecond value,3\r\nDemonstration total,5\r\n"
-    )
+    with csv_path.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.reader(handle))
+    assert rows[0] == [
+        "true_effect_display",
+        "true_effect_working",
+        "standardized_true_effect",
+        "selected_claim_probability",
+        "type_s",
+        "type_m",
+        "expected_selected_abs_z",
+        "observed_exaggeration",
+    ]
+    assert len(rows) == 402
+    assert all(row[-1] == "" for row in rows[1:])
 
     for selector, suffix in [
         ("#export-figure", "-figure.png"),
@@ -85,7 +193,32 @@ def test_csv_png_and_caption_exports(page: Page, app_url: str, tmp_path: Path) -
     page.locator("#copy-caption").click()
     expect(page.locator("#runtime-status")).to_have_text("Caption copied.")
     clipboard = page.evaluate("navigator.clipboard.readText()")
-    assert "does not implement a scientific method" in clipboard
+    assert "assumed true effect" in clipboard
+    assert "not posterior probabilities" in clipboard
+
+
+def test_plot_cap_is_disclosed_but_csv_values_are_uncapped(
+    page: Page,
+    app_url: str,
+    tmp_path: Path,
+) -> None:
+    _ready(page, app_url)
+    page.locator("#standard-error").fill("1")
+    page.locator("#true-effect-scenarios").fill("0.000001")
+    page.locator("summary").click()
+    page.locator("#plausible-min").fill("-0.01")
+    page.locator("#plausible-max").fill("0.01")
+    _calculate(page)
+
+    expect(page.locator("#warnings-list")).to_contain_text("Plot traces are capped at 10x")
+    with page.expect_download() as csv_info:
+        page.locator("#export-csv").click()
+    csv_path = tmp_path / csv_info.value.suggested_filename
+    csv_info.value.save_as(csv_path)
+    with csv_path.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    type_m_values = [float(row["type_m"]) for row in rows if row["type_m"]]
+    assert max(type_m_values) > 10
 
 
 def test_mobile_keyboard_and_privacy_smoke(page: Page, app_url: str) -> None:
@@ -94,13 +227,11 @@ def test_mobile_keyboard_and_privacy_smoke(page: Page, app_url: str) -> None:
     page.set_viewport_size({"width": 390, "height": 844})
     _ready(page, app_url)
     initial_url = page.url
-    page.locator("#first-value").fill("12345.67891")
-    page.locator("#second-value").fill("2")
-    page.locator("#first-value").focus()
+    page.locator("#observed-estimate").fill("12345.67891")
+    page.locator("#effect-type").focus()
     page.keyboard.press("Tab")
-    expect(page.locator("#second-value")).to_be_focused()
-    page.locator("#calculate").click()
-    expect(page.locator("#runtime-status")).to_have_text("Calculation complete.")
+    expect(page.locator("#precision-mode")).to_be_focused()
+    _calculate(page)
 
     assert page.url == initial_url
     assert page.evaluate("localStorage.length") == 0

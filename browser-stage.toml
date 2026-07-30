@@ -1,23 +1,19 @@
 schema_version = 1
 pyodide_version = "0.29.3"
-pyodide_packages = []
+pyodide_packages = ["numpy", "scipy"]
 
 [[packages]]
 role = "app"
-distribution = "scientific-applet-template-package"
-import_name = "template_applet"
+distribution = "type-s-m-calibrator"
+import_name = "type_sm_calibrator"
 version = "0.1.0"
 source = "project"
 
-# Add zero or more pure-Python external packages with an exact installed version:
-#
-# [[packages]]
-# role = "core"
-# distribution = "example-scientific-core"
-# import_name = "example_scientific_core"
-# version = "1.2.3"
-# source = "external"
-#
-# For a released wheel, also bind the stage to its locked artifact:
-# artifact_url = "https://github.com/OWNER/REPO/releases/download/v1.2.3/example.whl"
-# artifact_sha256 = "64-lowercase-hex-characters"
+[[packages]]
+role = "core"
+distribution = "wald-inference"
+import_name = "wald_inference"
+version = "0.3.0"
+source = "external"
+artifact_url = "https://github.com/reblocke/wald-inference-core/releases/download/v0.3.0/wald_inference-0.3.0-py3-none-any.whl"
+artifact_sha256 = "630fdece13c2940f751d1f5d3a4d6477182dbb099131a9907ceef7067348f939"

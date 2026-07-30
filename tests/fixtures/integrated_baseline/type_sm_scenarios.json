@@ -1,0 +1,122 @@
+{
+  "behavior_source_commit": "830756ecb11b4e8161f8dfe1fc75afc346ef4467",
+  "baseline_fixture_commit": "5fd501dd947d9b951d736014cfc2b310efa5e7b0",
+  "baseline_tag": "pre-split-baseline-2026-07-29",
+  "cases": [
+    {
+      "id": "B04",
+      "request": {
+        "precision_mode": "ci_95",
+        "effect_type": "mean_difference",
+        "ci_lower": 0.11,
+        "ci_upper": 0.73,
+        "null_value": 0.0,
+        "alpha": 0.05,
+        "selection_rule": "two_sided_p_lt_alpha",
+        "claim_direction": "positive",
+        "claim_threshold": null,
+        "information_multiplier": 1.0,
+        "true_effect_scenarios": [0.1, 0.3],
+        "reference_thresholds": [0.2],
+        "observed_estimate": 0.42,
+        "plausible_true_effect_min": null,
+        "plausible_true_effect_max": null,
+        "grid_points": 401,
+        "standard_error": null
+      },
+      "expected_current_se": 0.15816617164664273,
+      "expected_scenarios": {
+        "0.0": [0.04999999999999996, null, null, null],
+        "0.1": [0.09690378989449427, 0.04920417580211552, 3.8248678647515475, 4.199999999999999],
+        "0.2": [0.24401112024861793, 0.002586190806736487, 2.017176785360517, 2.0999999999999996],
+        "0.3": [0.4748512734696046, 0.00012101316085468538, 1.4420743599746872, 1.4],
+        "0.42": [0.7566219007707943, 2.5927130607757777e-06, 1.1559065411096971, 1.0]
+      }
+    },
+    {
+      "id": "B05",
+      "request": {
+        "precision_mode": "ci_95",
+        "effect_type": "odds_ratio",
+        "ci_lower": 1.2,
+        "ci_upper": 2.7,
+        "null_value": 1.0,
+        "alpha": 0.05,
+        "selection_rule": "ci_excludes_mcid",
+        "claim_direction": "positive",
+        "claim_threshold": 1.25,
+        "information_multiplier": 4.0,
+        "true_effect_scenarios": [1.1, 1.5, 2.0],
+        "reference_thresholds": [],
+        "observed_estimate": 1.8,
+        "plausible_true_effect_min": null,
+        "plausible_true_effect_max": null,
+        "grid_points": 401,
+        "standard_error": null
+      },
+      "expected_current_se": 0.20687375447019513,
+      "expected_scenarios": {
+        "1.0": [1.9170503872451024e-05, null, null, null],
+        "1.1": [0.0006971636976942811, 0.0, 4.761189164522617, 6.167092183740134],
+        "1.5": [0.42178541515692647, 0.0, 1.2366383146472644, 1.4496602867867916],
+        "1.8": [0.9412446324034974, 0.0, 1.0219084419231632, 1.0],
+        "2.0": [0.995115566590326, 0.0, 1.0021236780956986, 0.8479969065549501]
+      }
+    },
+    {
+      "id": "B07a-null",
+      "request": {
+        "precision_mode": "ci_95",
+        "effect_type": "mean_difference",
+        "ci_lower": 0.11,
+        "ci_upper": 0.73,
+        "null_value": 0.0,
+        "alpha": 0.05,
+        "selection_rule": "two_sided_p_lt_alpha",
+        "claim_direction": "positive",
+        "claim_threshold": null,
+        "information_multiplier": 1.0,
+        "true_effect_scenarios": [],
+        "reference_thresholds": [],
+        "observed_estimate": 0.42,
+        "plausible_true_effect_min": null,
+        "plausible_true_effect_max": null,
+        "grid_points": 401,
+        "standard_error": null
+      },
+      "expected_current_se": 0.15816617164664273,
+      "expected_scenarios": {
+        "0.0": [0.04999999999999996, null, null, null],
+        "0.42": [0.7566219007707943, 2.5927130607757777e-06, 1.1559065411096971, 1.0]
+      }
+    },
+    {
+      "id": "B07b-near-null",
+      "request": {
+        "precision_mode": "ci_95",
+        "effect_type": "mean_difference",
+        "ci_lower": 0.11,
+        "ci_upper": 0.73,
+        "null_value": 0.0,
+        "alpha": 0.05,
+        "selection_rule": "two_sided_p_lt_alpha",
+        "claim_direction": "positive",
+        "claim_threshold": null,
+        "information_multiplier": 0.01,
+        "true_effect_scenarios": [1.2e-12],
+        "reference_thresholds": [],
+        "observed_estimate": 0.42,
+        "plausible_true_effect_min": null,
+        "plausible_true_effect_max": null,
+        "grid_points": 401,
+        "standard_error": null
+      },
+      "expected_current_se": 0.15816617164664273,
+      "expected_scenarios": {
+        "0.0": [0.04999999999999996, null, null, null],
+        "1.2e-12": [0.04999999999999996, null, null, null],
+        "0.42": [0.058116299937334484, 0.2240953808417267, 8.876610691704055, 1.0]
+      }
+    }
+  ]
+}

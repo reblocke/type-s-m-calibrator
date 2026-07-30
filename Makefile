@@ -9,10 +9,10 @@ help:
 	@echo "  fmt-check        Check Python formatting"
 	@echo "  lint             Run Ruff lint"
 	@echo "  test             Run non-browser tests"
+	@echo "  scientific-test  Run scientific reference and regression tests"
 	@echo "  e2e              Run the full Chromium browser suite"
 	@echo "  e2e-webkit-smoke Run the initial WebKit worker smoke test"
 	@echo "  verify           Run formatting, lint, tests, Chromium, and WebKit"
-	@echo "  template-self-test Initialize and verify a disposable app"
 	@echo "  serve            Stage and serve web/ on http://127.0.0.1:8000"
 	@echo "  clean            Remove generated and local test artifacts"
 
@@ -40,6 +40,10 @@ lint:
 test: stage-web
 	uv run pytest -q -m "not e2e"
 
+.PHONY: scientific-test
+scientific-test:
+	uv run pytest -q tests/scientific_reference tests/regression
+
 .PHONY: e2e
 e2e: stage-web
 	uv run pytest -q -m e2e \
@@ -61,10 +65,6 @@ e2e-webkit-smoke: stage-web
 
 .PHONY: verify
 verify: fmt-check lint test e2e e2e-webkit-smoke
-
-.PHONY: template-self-test
-template-self-test:
-	uv run python scripts/self_test_template.py --browser chromium
 
 .PHONY: serve
 serve: stage-web

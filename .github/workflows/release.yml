@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  verify-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version-file: .python-version
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run playwright install --with-deps chromium webkit
+      - run: make verify
+      - name: Build deterministic source and stage artifacts
+        shell: bash
+        run: |
+          mkdir -p dist
+          git archive --format=tar --prefix="scientific-applet-template-${GITHUB_REF_NAME}/" HEAD |
+            gzip -n > "dist/scientific-applet-template-${GITHUB_REF_NAME}.tar.gz"
+          cp web/assets/py/manifest.json \
+            "dist/browser-stage-manifest-${GITHUB_REF_NAME}.json"
+          cd dist
+          sha256sum *.json *.tar.gz > SHA256SUMS
+      - name: Publish prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --prerelease \
+            --verify-tag \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file CHANGELOG.md

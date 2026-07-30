@@ -1,0 +1,24 @@
+# Scientific Applet Template
+
+Purpose: reusable static, client-side, Python-first scientific applet engineering scaffold.
+
+Important boundaries:
+- The repository implements no scientific formula.
+- The two-number addition is a replace-me demonstration only.
+- Python under `src/template_applet/` is source of truth.
+- `web/assets/py/` is generated from the locked environment and ignored.
+- Browser requests and responses use a strict JSON worker contract.
+- There is no backend, persistence, telemetry, cookie, or input-bearing URL.
+
+Key files:
+- `README.md`: initialization and architecture.
+- `docs/TEMPLATE_USAGE.md`: downstream author workflow.
+- `docs/SCIENTIFIC_SCOPE.md`: required scientific scope prompts.
+- `docs/VALIDATION.md`: validation plan and evidence prompts.
+- `docs/PRIVACY.md`: data-flow boundary.
+- `browser-stage.toml`: exact package and Pyodide configuration.
+- `scripts/stage_browser_packages.py`: deterministic staging.
+- `scripts/initialize_template.py`: guarded identity initializer.
+
+Canonical verification:
+`uv sync --locked && uv run playwright install chromium webkit && make verify`

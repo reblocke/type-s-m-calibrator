@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Reusable client-side Python scaffold for a focused scientific applet"
+    />
+    <title>Scientific Applet Template</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script
+      src="https://cdn.plot.ly/plotly-3.1.0.min.js"
+      charset="utf-8"
+      defer
+    ></script>
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to applet</a>
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">Replace-me demonstration</p>
+        <h1>Scientific Applet Template</h1>
+        <p>
+          Reusable client-side Python scaffold for a focused scientific applet
+        </p>
+      </div>
+      <section class="runtime-card" aria-labelledby="runtime-heading">
+        <h2 id="runtime-heading">Runtime</h2>
+        <p id="runtime-status" role="status" aria-live="polite" data-state="loading">
+          Loading the local Python runtime…
+        </p>
+        <p id="runtime-versions" class="version-text"></p>
+        <button id="retry-worker" type="button" class="secondary" hidden>
+          Restart worker
+        </button>
+      </section>
+    </header>
+
+    <main id="main-content" class="app-shell">
+      <aside class="controls" aria-labelledby="controls-heading">
+        <h2 id="controls-heading">Demonstration inputs</h2>
+        <p class="scope-note">
+          This arithmetic example exists only to prove the template path. Replace it before
+          describing a scientific question.
+        </p>
+        <div id="error-summary" class="error-summary" role="alert" tabindex="-1" hidden>
+          <h3>Check the inputs</h3>
+          <ul></ul>
+        </div>
+        <form id="applet-form" novalidate>
+          <div class="field">
+            <label for="first-value">First value</label>
+            <input
+              id="first-value"
+              name="first_value"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              value="2"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="second-value">Second value</label>
+            <input
+              id="second-value"
+              name="second_value"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              value="3"
+              required
+            />
+          </div>
+          <details>
+            <summary>Advanced controls pattern</summary>
+            <p>
+              Put infrequently changed, scientifically justified controls here. This example has
+              no advanced parameter.
+            </p>
+          </details>
+          <div class="actions">
+            <button id="calculate" type="submit" disabled>Run demonstration</button>
+            <button type="reset" class="secondary">Reset</button>
+          </div>
+        </form>
+      </aside>
+
+      <section class="results" aria-labelledby="results-heading">
+        <h2 id="results-heading">Result</h2>
+        <div id="result" hidden>
+          <p id="result-summary" class="result-summary" aria-live="polite"></p>
+          <div
+            id="plot"
+            class="plot"
+            role="img"
+            aria-label="Demonstration bar chart; all values are also listed in the table."
+          ></div>
+          <div class="table-wrap">
+            <table id="result-table">
+              <caption>Demonstration values</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Label</th>
+                  <th scope="col">Value</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="export-actions" aria-label="Export result">
+            <button id="export-csv" data-export type="button">Download CSV</button>
+            <button id="export-dashboard" data-export type="button">
+              Download dashboard PNG
+            </button>
+            <button id="export-figure" data-export type="button">
+              Download figure PNG
+            </button>
+            <button id="copy-caption" type="button">Copy caption</button>
+          </div>
+        </div>
+        <div class="empty-state">
+          <p>Run the demonstration to populate the textual result, plot, table, and exports.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <section>
+        <h2>Scope</h2>
+        <p>Engineering scaffold only. No scientific formula or inference claim is included.</p>
+      </section>
+      <section>
+        <h2>Privacy</h2>
+        <p>Inputs remain in page and worker memory; there is no backend, telemetry, or storage.</p>
+      </section>
+      <section>
+        <h2>Sources and maintenance</h2>
+        <p>
+          <a href="https://github.com/reblocke/scientific-applet-template/blob/main/docs/SCIENTIFIC_SCOPE.md">Scientific scope</a> ·
+          <a href="https://github.com/reblocke/scientific-applet-template/blob/main/docs/PRIVACY.md">Privacy details</a> ·
+          <a href="https://github.com/reblocke/scientific-applet-template">Repository</a> ·
+          <a href="https://github.com/reblocke">Related tools</a>
+        </p>
+        <p>
+          <span id="core-version">Core: none configured</span> ·
+          <span id="footer-status">template 0.1.0</span>
+        </p>
+      </section>
+    </footer>
+  </body>
+</html>

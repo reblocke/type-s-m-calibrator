@@ -215,11 +215,35 @@ function renderWarnings(response, list) {
   }
 }
 
+export const COMPACT_PLOT_MAX_WIDTH = 480;
+
+function plotContainerWidth(plotElement) {
+  const renderedWidth = plotElement.getBoundingClientRect().width;
+  if (renderedWidth > 0) {
+    return renderedWidth;
+  }
+  const resultsContainer = plotElement.closest(".results");
+  if (!resultsContainer) {
+    return 0;
+  }
+  const styles = globalThis.getComputedStyle(resultsContainer);
+  return Math.max(
+    0,
+    resultsContainer.clientWidth -
+      Number.parseFloat(styles.paddingLeft) -
+      Number.parseFloat(styles.paddingRight),
+  );
+}
+
+export function plotUsesCompactLayout(
+  plotElement,
+  width = plotContainerWidth(plotElement),
+) {
+  return width > 0 && width <= COMPACT_PLOT_MAX_WIDTH;
+}
+
 export async function renderResult(response, elements) {
   const observed = response.grid.observed_exaggeration_optional !== null;
-  const cap = response.meta.plot_exaggeration_cap;
-  const capApplied = response.meta.plot_exaggeration_cap_applied;
-  const compact = globalThis.innerWidth <= 480;
   elements.summary.textContent =
     `${response.scenarios.length} assumed-true-effect scenarios at ` +
     `${formatNumber(response.precision.information_multiplier)}x information; ` +
@@ -254,9 +278,25 @@ export async function renderResult(response, elements) {
   renderReviewerChoices(response, elements.reviewerSelect, elements.reviewerText);
   renderWarnings(response, elements.warnings);
 
+  await renderPlot(response, elements.plot);
+}
+
+export async function renderPlot(
+  response,
+  plotElement,
+  {
+    compact = plotUsesCompactLayout(plotElement),
+    height = null,
+    purpose = "live",
+    width = null,
+  } = {},
+) {
   if (!globalThis.Plotly) {
     throw new Error("The plotting library did not load.");
   }
+  const observed = response.grid.observed_exaggeration_optional !== null;
+  const cap = response.meta.plot_exaggeration_cap;
+  const capApplied = response.meta.plot_exaggeration_cap_applied;
   const axes = [
     { x: "x", y: "y" },
     { x: "x2", y: "y2" },
@@ -383,11 +423,11 @@ export async function renderResult(response, elements) {
       yref: "paper",
       font: { size: compact ? 12 : 14 },
     })),
-    autosize: true,
+    autosize: width === null,
     grid: observed
       ? { columns: 2, pattern: "independent", rows: 2 }
       : { columns: 1, pattern: "independent", rows: 3 },
-    height: observed ? (compact ? 900 : 820) : 1100,
+    height: height ?? (observed ? (compact ? 900 : 820) : 1100),
     legend: {
       font: { size: compact ? 11 : 12 },
       orientation: "h",
@@ -442,6 +482,9 @@ export async function renderResult(response, elements) {
       title: { font: { size: compact ? 11 : 14 }, text: "Type M (x-fold)" },
     },
   };
+  if (width !== null) {
+    layout.width = width;
+  }
   if (observed) {
     layout.xaxis4 = xAxis(response, xTitle, compact);
     layout.yaxis4 = {
@@ -456,14 +499,16 @@ export async function renderResult(response, elements) {
       },
     };
   }
+  plotElement.dataset.plotLayout = compact ? "compact" : "noncompact";
+  plotElement.dataset.plotPurpose = purpose;
   await globalThis.Plotly.react(
-    elements.plot,
+    plotElement,
     traces,
     layout,
     {
       displayModeBar: compact ? false : "hover",
       displaylogo: false,
-      responsive: true,
+      responsive: purpose === "live",
       scrollZoom: false,
     },
   );

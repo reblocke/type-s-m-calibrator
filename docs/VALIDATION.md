@@ -79,7 +79,8 @@ Static policy and Playwright tests verify:
 - exact eight-column numeric CSV and blank undefined cells;
 - uncapped CSV despite the 10× plot treatment;
 - clipping disclosure preserved in standalone plot/dashboard PNGs;
-- PNG, caption, and reviewer-text exports;
+- PNG, caption, and reviewer-text exports, including disposable fixed-size noncompact plot targets
+  for figure and dashboard PNGs initiated from a compact live plot;
 - safe validation errors and worker recovery;
 - prior-result clearing on client errors and stale-response rejection after
   Reset;
@@ -87,6 +88,10 @@ Static policy and Playwright tests verify:
 - keyboard, mobile, focus-contrast, and linked-error behavior;
 - 390 px rendered bounding-box containment and peer-label non-overlap for the calculated
   four-panel figure title, panel labels, legend text, and axis titles;
+- compact selection from the actual plot-container width in a wider two-column viewport, plus
+  post-render rerenders only when that container crosses the 480 px compact boundary;
+- trace-equivalent, noncompact PNG export plots that preserve clipping disclosure and leave the
+  live compact plot unchanged;
 - no input in URLs or network requests;
 - no backend, cookies, browser storage, telemetry, or logging.
 

@@ -7,13 +7,15 @@ All notable changes use a release-oriented record here. This repository follows
 
 ## [0.1.2] - 2026-07-30
 
-- Make the calculated four-panel plot readable at a 390 px viewport by wrapping compact figure,
-  panel, and axis titles, reserving additional plot space, and hiding the compact mode bar so it
-  cannot cover the title.
-- Add a Chromium regression that measures rendered label bounding boxes for viewport containment
-  and overlap instead of relying only on document-level horizontal overflow. This is a
-  presentation-only patch; Core remains at v0.4.1 and numerical responses, tables, and exports are
-  unchanged.
+- Make calculated plots readable whenever their actual container is no wider than 480 px,
+  including a narrow results column in a wider two-column viewport. A `ResizeObserver` rerenders
+  Plotly only when the container crosses that compact-layout boundary.
+- Build standalone figure and dashboard PNGs from disposable fixed-size noncompact plots, so
+  high-resolution exports retain desktop typography without changing the live compact plot. The
+  shared builder preserves the same traces and clipping disclosure.
+- Add Chromium regressions for rendered-label containment and overlap, container-width selection,
+  post-render threshold crossings, and isolated noncompact export targets. This remains a
+  presentation-only patch; Core stays at v0.4.1 and numerical responses and tables are unchanged.
 
 ## [0.1.1] - 2026-07-30
 

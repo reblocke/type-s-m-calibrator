@@ -11,7 +11,11 @@ import {
   readRequest,
   updateControlState,
 } from "./js/inputs.js";
-import { renderResult } from "./js/renderers.js";
+import {
+  plotUsesCompactLayout,
+  renderPlot,
+  renderResult,
+} from "./js/renderers.js";
 import { WorkerRuntime } from "./js/runtime.js";
 
 const form = document.querySelector("#applet-form");
@@ -34,6 +38,9 @@ let calculationGeneration = 0;
 let calculationInFlight = false;
 let runtimeGeneration = 0;
 let runtimeReady = false;
+let observedPlotCompact = null;
+let resizeRenderGeneration = 0;
+let resizeRenderQueue = Promise.resolve();
 
 function resultElements() {
   return {
@@ -60,10 +67,56 @@ function setExportAvailability(enabled) {
 
 function clearResultState() {
   currentResponse = null;
+  observedPlotCompact = null;
+  resizeRenderGeneration += 1;
   result.hidden = true;
   emptyState.hidden = false;
   setExportAvailability(false);
 }
+
+function queueResponsivePlotRender(compact) {
+  const response = currentResponse;
+  const calculation = calculationGeneration;
+  const resizeGeneration = ++resizeRenderGeneration;
+  resizeRenderQueue = resizeRenderQueue
+    .catch(() => {})
+    .then(async () => {
+      if (
+        resizeGeneration !== resizeRenderGeneration ||
+        calculation !== calculationGeneration ||
+        response !== currentResponse ||
+        result.hidden
+      ) {
+        return;
+      }
+      await renderPlot(response, plot, { compact });
+    })
+    .catch(() => {
+      if (
+        resizeGeneration === resizeRenderGeneration &&
+        calculation === calculationGeneration &&
+        response === currentResponse
+      ) {
+        setStatus(status, "The plot could not adapt to its available width.", "error");
+      }
+    });
+}
+
+const plotResizeObserver = new ResizeObserver((entries) => {
+  const plotEntry = entries.find((entry) => entry.target === plot);
+  const width = plotEntry?.contentRect.width || 0;
+  if (width <= 0) {
+    return;
+  }
+  const compact = plotUsesCompactLayout(plot, width);
+  const crossedCategory =
+    observedPlotCompact !== null && compact !== observedPlotCompact;
+  observedPlotCompact = compact;
+  if (crossedCategory && currentResponse !== null) {
+    queueResponsivePlotRender(compact);
+  }
+});
+plotResizeObserver.observe(plot);
 
 async function startRuntime() {
   const generation = ++runtimeGeneration;
@@ -139,6 +192,7 @@ form.addEventListener("submit", async (event) => {
     );
     await globalThis.Plotly.Plots.resize(plot);
     currentResponse = response;
+    observedPlotCompact = plotUsesCompactLayout(plot);
     setExportAvailability(true);
     setStatus(status, "Calculation complete.", "ready");
   } catch (error) {
@@ -197,7 +251,7 @@ document.querySelector("#export-csv").addEventListener("click", () => {
   exportCsv(currentResponse, APP_TITLE);
 });
 document.querySelector("#export-figure").addEventListener("click", async () => {
-  await exportFigurePng(plot, APP_TITLE);
+  await exportFigurePng(currentResponse, APP_TITLE);
 });
 document.querySelector("#export-dashboard").addEventListener("click", async () => {
   const dashboardSummary =
@@ -210,7 +264,7 @@ document.querySelector("#export-dashboard").addEventListener("click", async () =
         "numeric values remain uncapped. "
       : "") +
     "Not a posterior probability.";
-  await exportDashboardPng(plot, dashboardSummary, APP_TITLE);
+  await exportDashboardPng(currentResponse, dashboardSummary, APP_TITLE);
 });
 document.querySelector("#copy-caption").addEventListener("click", async () => {
   await copyText(currentResponse.meta.caption);

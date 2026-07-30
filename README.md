@@ -139,6 +139,17 @@ See [Validation](docs/VALIDATION.md),
 [Runtime Dependencies](docs/RUNTIME_DEPENDENCIES.md), and
 [Privacy](docs/PRIVACY.md).
 
+## Related Wald tools
+
+[Wald inference tools catalog](https://reblocke.github.io/wald-inference-tools/) ·
+[Precision guardrail planner](https://reblocke.github.io/precision-guardrail-planner/) ·
+[Integrated workbench](https://reblocke.github.io/conf_curve_likelihood/) ·
+[Repository](https://github.com/reblocke/type-s-m-calibrator)
+
+Numerical authority:
+[wald-inference Core v0.3.0](https://github.com/reblocke/wald-inference-core/releases/tag/v0.3.0).
+[Privacy](docs/PRIVACY.md) documents the client-side, no-storage boundary.
+
 ## Method reference
 
 Gelman A, Carlin J. Beyond Power Calculations: Assessing Type S (Sign) and Type

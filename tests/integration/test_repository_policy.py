@@ -75,3 +75,28 @@ def test_public_documents_have_no_unresolved_template_prompts() -> None:
     assert "replace-me" not in combined.lower()
     assert "arithmetic demonstration" not in combined.lower()
     assert "engineering scaffold only" not in combined.lower()
+
+
+def test_related_wald_tools_are_exact_in_readme_and_footer() -> None:
+    readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
+    html = (PROJECT_ROOT / "web" / "index.html").read_text(encoding="utf-8")
+    footer = html.split("<footer>", maxsplit=1)[1].split("</footer>", maxsplit=1)[0]
+    links = [
+        "https://reblocke.github.io/wald-inference-tools/",
+        "https://reblocke.github.io/precision-guardrail-planner/",
+        "https://reblocke.github.io/conf_curve_likelihood/",
+        "https://github.com/reblocke/type-s-m-calibrator",
+        "https://github.com/reblocke/wald-inference-core/releases/tag/v0.3.0",
+    ]
+
+    assert "## Related Wald tools" in readme
+    assert "<h2>Related Wald tools</h2>" in footer
+    for link in links:
+        assert link in readme
+        assert f'href="{link}"' in footer
+    assert "wald-inference Core v0.3.0" in readme
+    assert "wald-inference Core v0.3.0" in footer
+    assert "[Privacy](docs/PRIVACY.md)" in readme
+    assert (
+        'href="https://github.com/reblocke/type-s-m-calibrator/blob/main/docs/PRIVACY.md"' in footer
+    )

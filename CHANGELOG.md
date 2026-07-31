@@ -5,6 +5,8 @@ All notable changes use a release-oriented record here. This repository follows
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-07-31
+
 - Harden CI, Pages, and future releases with full-SHA Action pins, explicit least-privilege
   permissions, nonpersisted checkout credentials, and a disabled dependency cache in the
   release-artifact job.
@@ -17,8 +19,10 @@ All notable changes use a release-oriented record here. This repository follows
 - Add grouped weekly Dependabot proposals with a seven-day cooldown for `uv` and GitHub Actions,
   private vulnerability reporting guidance, contribution policy, scoped issue and pull-request
   templates, and repository-policy regressions. Dependency proposals remain review-only.
-- Preserve app version 0.1.3, the exact `wald-inference` v0.4.1 wheel and checksum, all scientific
-  calculations, the six-part response, browser behavior, exports, and forward-only Type S/M scope.
+- Adopt the exact immutable `wald-inference` v0.4.2 wheel and checksum in package metadata, the
+  lockfile, browser staging, runtime copy, and validation contracts. Core v0.4.2 changes governance
+  and release controls only; all scientific calculations, the six-part response, browser behavior,
+  exports, and forward-only Type S/M scope remain unchanged.
 
 ## [0.1.3] - 2026-07-30
 
@@ -66,7 +70,8 @@ All notable changes use a release-oriented record here. This repository follows
 - Verifies deterministic clean staging, Chromium and WebKit behavior, strict
   error handling, exports, accessibility, and client-only privacy.
 
-[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.0...v0.1.1

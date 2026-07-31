@@ -43,7 +43,7 @@ Z ~ Normal(delta, 1)
 
 Additive measures use the identity working scale. Odds ratios, risk ratios,
 hazard ratios, incidence-rate ratios, and ratios of means use the natural-log
-working scale. The app calls the released `wald-inference` 0.4.1
+working scale. The app calls the released `wald-inference` 0.4.2
 transformations and normal-tail routines; it does not implement these formulas
 locally.
 
@@ -284,7 +284,7 @@ when reused.
 ## Authorities
 
 Numerical implementation and runtime authority is the exact official
-`wald-inference` 0.4.1 artifact recorded in `uv.lock` and
+`wald-inference` 0.4.2 artifact recorded in `uv.lock` and
 `browser-stage.toml`.
 
 Methodology reference:

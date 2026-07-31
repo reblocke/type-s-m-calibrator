@@ -3,18 +3,18 @@
 ## Scientific core
 
 `wald-inference` is the sole runtime numerical/formula authority. Release
-0.4.1 supplies effect transformations, 95% CI reconstruction, information
+0.4.2 supplies effect transformations, 95% CI reconstruction, information
 scaling, all six selection rules, canonical selected-claim probability, and
 Type S/M design metrics.
 
 The adopted official artifact is:
 
 ```text
-Release: https://github.com/reblocke/wald-inference-core/releases/tag/v0.4.1
-Wheel:   https://github.com/reblocke/wald-inference-core/releases/download/v0.4.1/wald_inference-0.4.1-py3-none-any.whl
-SHA-256: d7272023f65088729d3ff997cab7cac57b84f22ac6108244ec2170434557d99b
-Tag commit: f4613177b6dc81d194aa70762152de2bfa86663b
-Retrieved: 2026-07-30
+Release: https://github.com/reblocke/wald-inference-core/releases/tag/v0.4.2
+Wheel:   https://github.com/reblocke/wald-inference-core/releases/download/v0.4.2/wald_inference-0.4.2-py3-none-any.whl
+SHA-256: 225331d7b9d7b70e2508eecb92851a92a8c4e245baf412a1eb0f464d85da1349
+Tag commit: 8afd0a463cc1d2586b8ce5cf92f40900647c3190
+Retrieved: 2026-07-31
 License: MIT
 ```
 
@@ -28,11 +28,11 @@ The URL, version, and SHA-256 are recorded identically in:
 No local path, sibling checkout, or mutable branch is an acceptable release
 dependency.
 
-The upstream v0.4.1 changelog and release metadata were reviewed before
-adoption. The release repairs active-threshold inverse-precision bracketing,
-extreme pairwise support comparison, and strict ratio back-transform
-underflow while retaining the selected-claim and Type S/M interfaces used
-here.
+The upstream v0.4.2 changelog, immutable release metadata, and artifact checksum were reviewed
+before adoption. This patch changes Core governance and release controls only and explicitly
+preserves every numerical formula, public API, tolerance, dependency resolution, and frozen
+baseline value. The v0.4.1 active-threshold, extreme-support, and ratio-underflow repairs and the
+selected-claim and Type S/M interfaces used here remain unchanged.
 
 ## Browser runtime
 

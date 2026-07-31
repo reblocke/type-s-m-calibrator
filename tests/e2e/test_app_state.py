@@ -8,13 +8,13 @@ globalThis.__mockCalculateDelayMs = 0;
 function responseForRequest() {
   return {
     meta: {
-      app_version: "0.1.3",
+      app_version: "0.1.4",
       axis_spacing: "linear",
       caption:
         "All values are assumed true effects. Values above 10x are clipped in the plot only.",
       conditioning_statement:
         "All curves condition on each x-axis value as the assumed true effect.",
-      core_version: "0.4.1",
+      core_version: "0.4.2",
       effect_family: "additive",
       effect_label: "Mean difference",
       effect_type: "mean_difference",
@@ -147,8 +147,8 @@ class FakeWorker {
         message.type === "initialize"
           ? {
               packages: [
-                { distribution: "type-s-m-calibrator", version: "0.1.3" },
-                { distribution: "wald-inference", version: "0.4.1" },
+                { distribution: "type-s-m-calibrator", version: "0.1.4" },
+                { distribution: "wald-inference", version: "0.4.2" },
               ],
             }
           : responseForRequest();

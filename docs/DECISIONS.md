@@ -142,3 +142,28 @@ Chromium regressions cover 390 px rendered-label containment and peer-label non-
 approximately 850 px two-column viewport whose plot container is still compact, post-render
 boundary crossings, and mobile-origin exports. These presentation decisions do not change Core
 v0.4.1, the six-part response, plotted data, numerical tables, or client-only privacy.
+
+## 2026-07-30 — Fail-closed repository and release governance
+
+Third-party GitHub Actions are content-addressed by reviewed full commit SHAs and receive grouped,
+review-only Dependabot proposals. CI has explicit read-only contents permission. Pages separates
+the read-only build from the narrowly write-enabled deploy. Checkout credentials are never
+persisted, and the release-artifact build disables shared dependency caching.
+
+A future release requires a GitHub-verified signed annotated tag whose remote tag object resolves
+to the event commit. The verified target must be contained in protected `main` history before
+isolated project-version parsing or any repository dependency installation, test, or build. The
+tag must equal `v` plus the authoritative project version.
+
+Release assets are built and checksummed before release creation, then transferred to a separate
+publishing job. Credentialed release commands use an exact checksummed GitHub CLI. A
+repository-scoped Administration-read `RELEASE_SETTINGS_READ_TOKEN` fails closed unless immutable
+releases are enabled; it is not used to publish. The job-scoped token creates a draft stable
+release containing every asset and only the current version's changelog section. The workflow
+downloads and compares the release body and every asset before publishing once, then verifies the
+immutable release and each asset.
+
+Private vulnerability reporting is the disclosure path. Public issue forms exclude credentials,
+restricted data, sensitive values, and protected health information. These governance changes do
+not alter Core v0.4.1, Type S/M calculations or interpretation, the six-part response, browser
+behavior, exports, version metadata, or scientific scope.

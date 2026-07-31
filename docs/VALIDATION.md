@@ -131,6 +131,30 @@ run, hosted smoke, and remaining limitations. Local results are recorded in
 the pull request and release handoff; GitHub Actions reruns the complete gates
 from the reviewed commit.
 
+For each future release, evidence additionally records:
+
+- exact equality between the signed annotated tag and authoritative project
+  version;
+- GitHub verification of the remote tag object and its binding to the event
+  commit;
+- containment of that verified commit in protected `main` history before
+  repository code runs;
+- use of the exact checksummed GitHub CLI for credentialed release commands;
+- local and downloaded draft-asset byte comparison and SHA-256 verification;
+- a downloaded release body exactly matching the tagged version's nonempty
+  changelog section;
+- stable, one-time publication from the verified draft;
+- published release immutability; and
+- independent verification of the published release and every asset.
+
+Repository-policy tests verify full-SHA Action pins with version comments,
+least-privilege workflow permissions, nonpersisted checkout credentials,
+release-cache isolation, signature and protected-main ordering, draft-first
+stable publication, exact assets and body comparison, immutable-release
+enforcement, Dependabot coverage, and private-reporting guidance. These are
+engineering policy checks; they do not establish scientific or clinical
+validity.
+
 The 2026-07-30 local release-candidate run used the official Core 0.4.1 wheel
 and passed:
 

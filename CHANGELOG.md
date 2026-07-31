@@ -5,6 +5,21 @@ All notable changes use a release-oriented record here. This repository follows
 
 ## [Unreleased]
 
+- Harden CI, Pages, and future releases with full-SHA Action pins, explicit least-privilege
+  permissions, nonpersisted checkout credentials, and a disabled dependency cache in the
+  release-artifact job.
+- Require a GitHub-verified signed annotated tag, bind its remote tag object to the event commit,
+  require protected-`main` containment before isolated version parsing or repository execution,
+  and require exact agreement between the tag and declared app version.
+- Install an exact checksummed GitHub CLI before credentialed release commands, require immutable
+  releases through a dedicated Administration-read secret, and verify the exact draft assets and
+  version-bounded release body before one-time stable publication.
+- Add grouped weekly Dependabot proposals with a seven-day cooldown for `uv` and GitHub Actions,
+  private vulnerability reporting guidance, contribution policy, scoped issue and pull-request
+  templates, and repository-policy regressions. Dependency proposals remain review-only.
+- Preserve app version 0.1.3, the exact `wald-inference` v0.4.1 wheel and checksum, all scientific
+  calculations, the six-part response, browser behavior, exports, and forward-only Type S/M scope.
+
 ## [0.1.3] - 2026-07-30
 
 - State the declared app version, canonical release record, experimental release maturity,

@@ -59,6 +59,23 @@ distributions are copied to the browser. Staging verifies distribution
 version, direct artifact URL/checksum, installed `direct_url.json`, wheel
 `RECORD`, safe package shape, and deterministic file/package/bundle hashes.
 
+## Repository automation
+
+Every third-party GitHub Action is pinned to a reviewed full commit SHA with a
+human-readable version comment. Dependabot proposes grouped weekly updates
+after a seven-day cooldown for both `uv` dependencies and Action pins. An
+update remains a reviewed source and supply-chain change: inspect upstream
+release notes, confirm the referenced commit belongs to the stated release,
+and rerun scientific, contract, staging, Chromium, and WebKit checks before
+merging. Dependency automation does not authorize a Core upgrade or automatic
+merging.
+
+The release workflow downloads GitHub CLI 2.93.0 from its versioned official
+archive and verifies SHA-256
+`02d1290eba130e0b896f3709ffff22e1c75a51475ddb70476a85abc6b5807af0`
+before any credentialed `gh` command. This build-time tool is not a scientific
+or browser runtime dependency.
+
 ## Creation-time provenance
 
 The repository was initialized from

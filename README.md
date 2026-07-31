@@ -29,6 +29,10 @@ release page.
 For software citation, use [`CITATION.cff`](CITATION.cff) and cite the exact tagged release used.
 If you use unreleased code, cite the exact repository commit instead.
 
+Public engineering and accessibility reports use the scoped issue forms in `.github/`. Report
+vulnerabilities privately as described in [SECURITY.md](SECURITY.md); never put protected health
+information, credentials, restricted data, or sensitive values in a public report.
+
 ## What it provides
 
 - direct working-scale SE or reported 95% CI precision input;
@@ -131,6 +135,15 @@ make clean
 
 Generated browser Python must remain ignored. Before release, a clean checkout
 must stage from the locked official artifact without a sibling repository.
+
+Future version tags must be signed, annotated, equal to the declared project version, and point to
+a reviewed commit contained in protected `main` history. The release workflow verifies those
+properties before running repository code, rebuilds and checksums the source and browser manifest,
+and transfers the complete bundle to a separate publishing job. That job requires immutable
+releases, creates a draft stable release, re-downloads and compares every asset and the release
+body, and publishes only the verified draft. Credentialed release commands use an exact
+checksummed GitHub CLI; the immutability check uses the repository-scoped
+`RELEASE_SETTINGS_READ_TOKEN` Actions secret.
 
 ## Validation and provenance
 

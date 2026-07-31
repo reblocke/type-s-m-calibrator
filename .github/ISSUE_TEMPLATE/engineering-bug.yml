@@ -1,0 +1,73 @@
+name: Type S/M app engineering bug
+description: Report a reproducible defect in this repository's orchestration, contract, staging, UI, or release path.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report only behavior owned by this repository; identify `wald-inference` as the
+        authoritative upstream when a released numerical primitive owns the suspected defect.
+        Use only synthetic values here. Never include protected health information, credentials,
+        unpublished restricted data, or other sensitive material.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Type S/M orchestration or strict response contract
+        - Core integration or released-artifact provenance
+        - Browser staging or integrity verification
+        - Static UI, accessibility, or exports
+        - CI, Pages, release, or repository policy
+        - Documentation
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Exact version or commit
+      description: Provide the release tag or full commit SHA where the problem occurs.
+      placeholder: v0.1.3 or a 40-character commit SHA
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal synthetic reproduction
+      description: List exact commands and synthetic inputs needed to reproduce the problem.
+      placeholder: |
+        1. uv sync --locked
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Redact local paths, tokens, user values, and sensitive logs.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, Python, uv, and browser versions when relevant.
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Public-report safety
+      options:
+        - label: I used only synthetic values and removed credentials, sensitive data, and protected health information.
+          required: true
+        - label: This report concerns behavior owned by this repository or identifies the authoritative upstream owner.
+          required: true

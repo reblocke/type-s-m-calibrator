@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a vulnerability privately
+    url: https://github.com/reblocke/type-s-m-calibrator/security/advisories/new
+    about: Do not disclose vulnerabilities, secrets, sensitive values, or health information in a public issue.
+  - name: Review the scientific scope
+    url: https://github.com/reblocke/type-s-m-calibrator/blob/main/docs/SCIENTIFIC_SCOPE.md
+    about: Confirm the forward Type S/M question, assumptions, interpretation, and exclusions before filing.

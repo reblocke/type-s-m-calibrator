@@ -1,0 +1,17 @@
+name: Private security coordination request
+description: Report only that GitHub private vulnerability reporting is unavailable; include no vulnerability details.
+title: "[Security contact]: Private reporting control unavailable"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a public issue. Do not identify the vulnerability, affected component, version,
+        reproduction, impact, credentials, sensitive values, or protected health information.
+        The maintainer will restore or identify the repository's private reporting path.
+  - type: checkboxes
+    id: public-safety
+    attributes:
+      label: Public-report safety
+      options:
+        - label: I have included no vulnerability details, credentials, sensitive data, or protected health information.
+          required: true

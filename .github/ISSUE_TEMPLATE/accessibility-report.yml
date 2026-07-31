@@ -1,0 +1,50 @@
+name: Accessibility report
+description: Report an accessibility barrier in the Type S/M interface.
+title: "[Accessibility]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the interaction barrier using only synthetic inputs. Do not include health
+        information, screenshots containing sensitive values, credentials, or private data.
+  - type: input
+    id: version
+    attributes:
+      label: Exact version or commit
+      placeholder: v0.1.3 or a 40-character commit SHA
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and assistive technology
+      description: Include operating system, browser, assistive technology, and their versions.
+    validations:
+      required: true
+  - type: textarea
+    id: task
+    attributes:
+      label: Task and synthetic setup
+      description: Describe what you were trying to accomplish and any synthetic values used.
+    validations:
+      required: true
+  - type: textarea
+    id: barrier
+    attributes:
+      label: Observed barrier
+      description: Include focus, keyboard, announcement, reflow, contrast, or export details as applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected accessible behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Public-report safety
+      options:
+        - label: I used only synthetic values and removed sensitive data and protected health information.
+          required: true

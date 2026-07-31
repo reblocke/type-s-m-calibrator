@@ -43,6 +43,11 @@ identifiers. Browser privacy tests use conspicuous synthetic sentinel values
 and assert they do not enter network requests. Release evidence must not
 include user-entered or patient-derived values in screenshots or logs.
 
+Public issue and pull-request reports must also use synthetic values and omit
+credentials, sensitive data, and protected health information. Vulnerability
+details use the private process in `SECURITY.md`, not public coordination
+surfaces.
+
 Any future storage, telemetry, server, analytics, sharing, or upload proposal
 requires a separate data-flow, retention, access, and compliance review before
 implementation.

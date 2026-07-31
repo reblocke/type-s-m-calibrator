@@ -46,12 +46,13 @@ B04/B05/B07 parity, all-six-rule browser coverage, and scientific review.
 
 ## Release changes
 
-A release change requires a reviewed pull request and a signed, annotated version tag pointing to
+A release change requires a reviewed pull request and an annotated version tag pointing to
 the exact reviewed merge commit. The tag must equal `v` plus the authoritative project version,
 and that version needs a nonempty changelog section. The tag workflow:
 
-1. cryptographically verifies the tag before executing repository code;
-2. requires the verified tag target to be contained in protected `main` history and match the
+1. verifies the annotated remote tag object and its binding to the event commit before executing
+   repository code;
+2. requires the tag target to be contained in protected `main` history and match the
    project version;
 3. verifies the scientific, contract, privacy, staging, Chromium, and WebKit suite with read-only
    contents permission;
@@ -62,10 +63,10 @@ and that version needs a nonempty changelog section. The tag workflow:
 8. downloads and compares every draft asset and the release body; and
 9. publishes only the verified draft once as stable.
 
-Before creating the tag, enable immutable releases and configure a repository-scoped
-Administration-read token as the `RELEASE_SETTINGS_READ_TOKEN` Actions secret. The publishing job
-uses that secret only for the fail-closed settings query; release creation uses the job-scoped
-GitHub token.
+Before creating the tag, enable immutable releases. Every credentialed release command uses the
+job-scoped GitHub token; no external release credential is required. After publication, the
+workflow requires the release to report immutable and independently verifies it and every asset.
 
-If a release job fails after draft creation, leave the release as a draft for inspection. Do not
-replace assets or move a tag after publication.
+If a release job fails while the release remains a draft, leave the draft for inspection. If a
+post-publication verification fails, preserve the published artifacts and investigate the release
+state. Do not replace assets or move a tag after publication.

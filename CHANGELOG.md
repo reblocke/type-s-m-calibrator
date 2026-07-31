@@ -8,12 +8,12 @@ All notable changes use a release-oriented record here. This repository follows
 - Harden CI, Pages, and future releases with full-SHA Action pins, explicit least-privilege
   permissions, nonpersisted checkout credentials, and a disabled dependency cache in the
   release-artifact job.
-- Require a GitHub-verified signed annotated tag, bind its remote tag object to the event commit,
-  require protected-`main` containment before isolated version parsing or repository execution,
-  and require exact agreement between the tag and declared app version.
-- Install an exact checksummed GitHub CLI before credentialed release commands, require immutable
-  releases through a dedicated Administration-read secret, and verify the exact draft assets and
-  version-bounded release body before one-time stable publication.
+- Require an annotated tag whose exact remote tag object is bound to the event commit, protected
+  `main` history, and declared app version before repository code is executed, without making
+  GitHub signature verification a release gate.
+- Use only the job-scoped GitHub token for remote tag and release operations; remove the external
+  settings credential and prepublication immutable-settings query while retaining exact draft
+  body/asset comparison and post-publication immutable-release and asset verification.
 - Add grouped weekly Dependabot proposals with a seven-day cooldown for `uv` and GitHub Actions,
   private vulnerability reporting guidance, contribution policy, scoped issue and pull-request
   templates, and repository-policy regressions. Dependency proposals remain review-only.

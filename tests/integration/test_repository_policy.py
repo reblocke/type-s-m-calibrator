@@ -345,24 +345,24 @@ def test_governance_docs_preserve_version_core_and_type_sm_boundaries() -> None:
     scope = (PROJECT_ROOT / "docs" / "SCIENTIFIC_SCOPE.md").read_text(encoding="utf-8")
     readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
 
-    assert project["version"] == "0.1.3"
+    assert project["version"] == "0.1.4"
     assert project["dependencies"] == [
         "wald-inference @ "
-        "https://github.com/reblocke/wald-inference-core/releases/download/v0.4.1/"
-        "wald_inference-0.4.1-py3-none-any.whl"
-        "#sha256=d7272023f65088729d3ff997cab7cac57b84f22ac6108244ec2170434557d99b"
+        "https://github.com/reblocke/wald-inference-core/releases/download/v0.4.2/"
+        "wald_inference-0.4.2-py3-none-any.whl"
+        "#sha256=225331d7b9d7b70e2508eecb92851a92a8c4e245baf412a1eb0f464d85da1349"
     ]
     app, core = stage["packages"]
-    assert (app["version"], core["version"]) == ("0.1.3", "0.4.1")
+    assert (app["version"], core["version"]) == ("0.1.4", "0.4.2")
     assert core["artifact_sha256"] == (
-        "d7272023f65088729d3ff997cab7cac57b84f22ac6108244ec2170434557d99b"
+        "225331d7b9d7b70e2508eecb92851a92a8c4e245baf412a1eb0f464d85da1349"
     )
     assert "The focused response contains exactly:" in scope
     for key in ("meta", "precision", "selection_rule", "grid", "scenarios", "warnings"):
         assert key in scope
     assert "posterior probability" in scope
     assert "No inverse precision solver is included." in scope
-    assert "Current app version: **0.1.3**." in readme
+    assert "Current app version: **0.1.4**." in readme
 
 
 def test_generated_stage_is_ignored_and_not_tracked() -> None:
@@ -434,7 +434,7 @@ def test_related_wald_tools_are_exact_in_readme_and_footer() -> None:
         "https://reblocke.github.io/precision-guardrail-planner/",
         "https://reblocke.github.io/conf_curve_likelihood/",
         "https://github.com/reblocke/type-s-m-calibrator",
-        "https://github.com/reblocke/wald-inference-core/releases/tag/v0.4.1",
+        "https://github.com/reblocke/wald-inference-core/releases/tag/v0.4.2",
     ]
 
     assert "## Related Wald tools" in readme
@@ -442,8 +442,8 @@ def test_related_wald_tools_are_exact_in_readme_and_footer() -> None:
     for link in links:
         assert link in readme
         assert f'href="{link}"' in footer
-    assert "wald-inference Core v0.4.1" in readme
-    assert "wald-inference Core v0.4.1" in footer
+    assert "wald-inference Core v0.4.2" in readme
+    assert "wald-inference Core v0.4.2" in footer
     assert "[Privacy](docs/PRIVACY.md)" in readme
     assert (
         'href="https://github.com/reblocke/type-s-m-calibrator/blob/main/docs/PRIVACY.md"' in footer

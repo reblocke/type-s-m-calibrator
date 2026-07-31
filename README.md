@@ -19,10 +19,10 @@ Hosted app: <https://reblocke.github.io/type-s-m-calibrator/>.
 
 ## Version, release, and citation
 
-Current app version: **0.1.3**.
+Current app version: **0.1.4**.
 
 Canonical release record:
-[`v0.1.3`](https://github.com/reblocke/type-s-m-calibrator/releases/tag/v0.1.3).
+[`v0.1.4`](https://github.com/reblocke/type-s-m-calibrator/releases/tag/v0.1.4).
 Release maturity: experimental software. GitHub publication state is recorded on the versioned
 release page.
 
@@ -83,9 +83,9 @@ browser form
   records file/package/bundle SHA-256 hashes.
 - `web/assets/py/` is generated, ignored, and never hand-edited.
 
-The app pins the official `wald-inference` 0.4.1 release wheel by URL and
+The app pins the official `wald-inference` 0.4.2 release wheel by URL and
 SHA-256
-`d7272023f65088729d3ff997cab7cac57b84f22ac6108244ec2170434557d99b`.
+`225331d7b9d7b70e2508eecb92851a92a8c4e245baf412a1eb0f464d85da1349`.
 No sibling checkout or mutable branch is a runtime dependency.
 
 ## Inputs and interpretation
@@ -172,7 +172,7 @@ See [Validation](docs/VALIDATION.md),
 [Repository](https://github.com/reblocke/type-s-m-calibrator)
 
 Numerical authority:
-[wald-inference Core v0.4.1](https://github.com/reblocke/wald-inference-core/releases/tag/v0.4.1).
+[wald-inference Core v0.4.2](https://github.com/reblocke/wald-inference-core/releases/tag/v0.4.2).
 [Privacy](docs/PRIVACY.md) documents the client-side, no-storage boundary.
 
 ## Method reference
@@ -182,7 +182,7 @@ M (Magnitude) Errors. *Perspectives on Psychological Science*. 2014;9(6):
 641–651. <https://doi.org/10.1177/1745691614551642>.
 
 The paper motivates the Type S/M framework. Core APIs and their tests are the
-implementation authority; the exact pinned 0.4.1 release artifact is the
+implementation authority; the exact pinned 0.4.2 release artifact is the
 runtime authority. No external figure, table, or substantial text is copied
 here.
 

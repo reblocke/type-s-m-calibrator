@@ -1,5 +1,20 @@
 # Decisions
 
+## 2026-07-31 — Core 0.4.2 replaces Core 0.4.1 without numerical change
+
+The app pins the immutable official Core 0.4.2 wheel at
+`https://github.com/reblocke/wald-inference-core/releases/download/v0.4.2/wald_inference-0.4.2-py3-none-any.whl`
+with SHA-256 `225331d7b9d7b70e2508eecb92851a92a8c4e245baf412a1eb0f464d85da1349`.
+The annotated upstream tag targets `8afd0a463cc1d2586b8ce5cf92f40900647c3190`. Package metadata,
+the lockfile, browser staging, public runtime markers, and validation contracts use that same
+artifact.
+
+Core 0.4.2 changes governance and release controls only and explicitly preserves every numerical
+formula, public API, tolerance, dependency resolution, and frozen baseline value. The app therefore
+adopts the new immutable release without changing local orchestration, scientific interpretation,
+the focused response, browser behavior, or exports. The historical Core 0.4.1 adoption decision
+remains below as the record for the numerical repairs first consumed by this app.
+
 ## 2026-07-31 — Release automation uses only the job-scoped GitHub token
 
 This decision supersedes only the 2026-07-30 requirements for a GitHub-verified tag signature and

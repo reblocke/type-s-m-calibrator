@@ -3,13 +3,13 @@
 ## Validation boundary
 
 The app validates orchestration and presentation around `wald-inference`; it
-does not duplicate core formulas. The exact official 0.4.1 artifact and its
+does not duplicate core formulas. The exact official 0.4.2 artifact and its
 numerical release tests are authoritative for normal tails, selection
 intervals, truncated normal moments, transforms, and CI reconstruction.
 
-Core v0.4.1 repairs active-threshold inverse-precision bracketing, extreme pairwise support
-comparison, and strict ratio back-transform underflow while retaining the forward selection and
-Type S/M definitions used here. This app adds no local formula.
+Core v0.4.2 retains the v0.4.1 active-threshold inverse-precision, extreme pairwise support, and
+strict ratio-underflow repairs plus the forward selection and Type S/M definitions used here. The
+0.4.2 patch changes governance and release controls only. This app adds no local formula.
 
 Engineering and numerical parity do not establish clinical validity or the
 scientific appropriateness of a user threshold.
@@ -102,7 +102,7 @@ smoke.
 
 Before release:
 
-1. pin the official `wald-inference` 0.4.1 wheel URL and SHA-256 in
+1. pin the official `wald-inference` 0.4.2 wheel URL and SHA-256 in
    `pyproject.toml`, `uv.lock`, and `browser-stage.toml`;
 2. verify the upstream changelog and public API;
 3. stage from a clean checkout with no sibling core repository;

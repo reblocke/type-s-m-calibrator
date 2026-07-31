@@ -6,14 +6,14 @@ pyodide_packages = ["numpy", "scipy"]
 role = "app"
 distribution = "type-s-m-calibrator"
 import_name = "type_sm_calibrator"
-version = "0.1.3"
+version = "0.1.4"
 source = "project"
 
 [[packages]]
 role = "core"
 distribution = "wald-inference"
 import_name = "wald_inference"
-version = "0.4.1"
+version = "0.4.2"
 source = "external"
-artifact_url = "https://github.com/reblocke/wald-inference-core/releases/download/v0.4.1/wald_inference-0.4.1-py3-none-any.whl"
-artifact_sha256 = "d7272023f65088729d3ff997cab7cac57b84f22ac6108244ec2170434557d99b"
+artifact_url = "https://github.com/reblocke/wald-inference-core/releases/download/v0.4.2/wald_inference-0.4.2-py3-none-any.whl"
+artifact_sha256 = "225331d7b9d7b70e2508eecb92851a92a8c4e245baf412a1eb0f464d85da1349"

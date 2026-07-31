@@ -179,7 +179,7 @@ def test_release_note_guards_reject_whitespace_before_transfer_and_publish(
     assert result.returncode == 0
 
 
-def test_release_verifies_signed_main_contained_tag_before_repository_execution() -> None:
+def test_release_verifies_annotated_main_contained_tag_before_repository_execution() -> None:
     release = (WORKFLOW_ROOT / "release.yml").read_text(encoding="utf-8")
     version_parse = (
         "python -I -c 'import tomllib; "
@@ -191,9 +191,8 @@ def test_release_verifies_signed_main_contained_tag_before_repository_execution(
     assert "/git/ref/tags/${GITHUB_REF_NAME}" in release
     assert 'git rev-parse "refs/tags/$GITHUB_REF_NAME"' in release
     assert "--jq '.tag'" in release
-    assert ".verification.verified" in release
-    assert ".verification.reason" in release
-    assert ')" = "valid"' in release
+    assert ".verification.verified" not in release
+    assert ".verification.reason" not in release
     assert "--jq '.object.sha'" in release
     assert "--jq '.object.type'" in release
     assert ')" = "commit"' in release
@@ -203,21 +202,21 @@ def test_release_verifies_signed_main_contained_tag_before_repository_execution(
     assert version_parse in release
     assert 'test "$GITHUB_REF_NAME" = "v${project_version}"' in release
 
-    signature = release.index(".verification.verified")
+    remote_tag = release.index("/git/ref/tags/${GITHUB_REF_NAME}")
     protected_main = release.index("git merge-base --is-ancestor")
     version = release.index(version_parse)
     install = release.index("uv sync --locked")
     execute = release.index("make verify")
-    assert signature < protected_main < version < install < execute
+    assert remote_tag < protected_main < version < install < execute
 
 
-def test_release_is_exact_draft_first_stable_and_immutable_fail_closed() -> None:
+def test_release_is_exact_draft_first_stable_and_postpublish_immutable() -> None:
     release = (WORKFLOW_ROOT / "release.yml").read_text(encoding="utf-8")
     publish = release[release.index("\n  publish:") :]
 
-    assert '"repos/${GITHUB_REPOSITORY}/immutable-releases"' in release
-    assert "secrets.RELEASE_SETTINGS_READ_TOKEN" in release
-    assert ')" = "true"' in release
+    assert "/immutable-releases" not in release
+    assert "RELEASE_SETTINGS_READ_TOKEN" not in release
+    assert publish.count("GH_TOKEN: ${{ github.token }}") == 3
     assert 'git archive --format=tar --prefix="type-s-m-calibrator-${GITHUB_REF_NAME}/"' in release
     assert '"$assets/browser-stage-manifest-${GITHUB_REF_NAME}.json"' in release
     assert "sha256sum --check SHA256SUMS" in release
@@ -240,8 +239,7 @@ def test_release_is_exact_draft_first_stable_and_immutable_fail_closed() -> None
     assert "gh release verify" in release
     assert "gh release verify-asset" in release
     assert (
-        publish.index("/immutable-releases")
-        < publish.index("gh release create")
+        publish.index("gh release create")
         < publish.index("gh release download")
         < publish.index("--draft=false")
         < publish.index("gh release verify")
@@ -257,12 +255,9 @@ def test_release_installs_checksummed_github_cli_before_credentialed_commands() 
     assert release.count("sha256sum --check --strict -") == 2
     assert release.count("Confirm the checksummed GitHub CLI is selected") == 2
     assert release.index("Install checksummed GitHub CLI") < release.index(
-        "Require GitHub verification of the signed tag"
+        "Verify the annotated remote tag and event commit"
     )
     publish = release[release.index("\n  publish:") :]
-    assert publish.index("Install checksummed GitHub CLI") < publish.index(
-        "Require repository release immutability"
-    )
     assert publish.index("Confirm the checksummed GitHub CLI is selected") < publish.index(
         "gh release create"
     )
@@ -308,7 +303,7 @@ def test_public_coordination_files_preserve_scientific_scope_and_private_reporti
     assert "sole numerical and formula authority" in contributing
     assert "six-part response" in contributing
     assert "private" in contributing.lower()
-    assert "release_settings_read_token" in contributing.lower()
+    assert "release_settings_read_token" not in contributing.lower()
     assert "blank_issues_enabled: false" in issue_config
     assert "/security/advisories/new" in issue_config
     assert "protected health information" in engineering_issue.lower()
@@ -321,6 +316,25 @@ def test_public_coordination_files_preserve_scientific_scope_and_private_reporti
     assert "six-part response" in pull_request
     assert "make scientific-test" in pull_request
     assert "make verify" in pull_request
+
+
+def test_current_release_docs_match_credential_free_annotated_tag_policy() -> None:
+    current_docs = (
+        PROJECT_ROOT / "README.md",
+        PROJECT_ROOT / "CHANGELOG.md",
+        PROJECT_ROOT / "CONTRIBUTING.md",
+        PROJECT_ROOT / "docs" / "MAINTENANCE.md",
+        PROJECT_ROOT / "docs" / "VALIDATION.md",
+    )
+    for path in current_docs:
+        text = path.read_text(encoding="utf-8")
+        assert "RELEASE_SETTINGS_READ_TOKEN" not in text
+        assert re.search(r"\bsigned\b", text, flags=re.IGNORECASE) is None
+
+    decisions = (PROJECT_ROOT / "docs" / "DECISIONS.md").read_text(encoding="utf-8")
+    assert "2026-07-31 — Release automation uses only the job-scoped GitHub token" in decisions
+    assert "supersedes only the 2026-07-30 requirements" in decisions
+    assert "GitHub-verified signed annotated tag" in decisions
 
 
 def test_governance_docs_preserve_version_core_and_type_sm_boundaries() -> None:

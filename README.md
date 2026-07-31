@@ -136,14 +136,14 @@ make clean
 Generated browser Python must remain ignored. Before release, a clean checkout
 must stage from the locked official artifact without a sibling repository.
 
-Future version tags must be signed, annotated, equal to the declared project version, and point to
-a reviewed commit contained in protected `main` history. The release workflow verifies those
+Future version tags must be annotated, equal to the declared project version, and point to a
+reviewed commit contained in protected `main` history. The release workflow verifies those
 properties before running repository code, rebuilds and checksums the source and browser manifest,
 and transfers the complete bundle to a separate publishing job. That job requires immutable
 releases, creates a draft stable release, re-downloads and compares every asset and the release
 body, and publishes only the verified draft. Credentialed release commands use an exact
-checksummed GitHub CLI; the immutability check uses the repository-scoped
-`RELEASE_SETTINGS_READ_TOKEN` Actions secret.
+checksummed GitHub CLI with the job-scoped GitHub token; no external release credential is
+required. The workflow verifies release immutability immediately after publication.
 
 ## Validation and provenance
 

@@ -133,13 +133,14 @@ from the reviewed commit.
 
 For each future release, evidence additionally records:
 
-- exact equality between the signed annotated tag and authoritative project
+- exact equality between the annotated tag and authoritative project
   version;
-- GitHub verification of the remote tag object and its binding to the event
+- verification of the remote tag object's identity and binding to the event
   commit;
-- containment of that verified commit in protected `main` history before
+- containment of that commit in protected `main` history before
   repository code runs;
-- use of the exact checksummed GitHub CLI for credentialed release commands;
+- use of the exact checksummed GitHub CLI and only the job-scoped GitHub token for credentialed
+  release commands;
 - local and downloaded draft-asset byte comparison and SHA-256 verification;
 - a downloaded release body exactly matching the tagged version's nonempty
   changelog section;
@@ -149,7 +150,7 @@ For each future release, evidence additionally records:
 
 Repository-policy tests verify full-SHA Action pins with version comments,
 least-privilege workflow permissions, nonpersisted checkout credentials,
-release-cache isolation, signature and protected-main ordering, draft-first
+release-cache isolation, annotated-tag and protected-main ordering, draft-first
 stable publication, exact assets and body comparison, immutable-release
 enforcement, Dependabot coverage, and private-reporting guidance. These are
 engineering policy checks; they do not establish scientific or clinical

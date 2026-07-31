@@ -1,5 +1,25 @@
 # Decisions
 
+## 2026-07-31 — Release automation uses only the job-scoped GitHub token
+
+This decision supersedes only the 2026-07-30 requirements for a GitHub-verified tag signature and
+a repository-scoped Administration-read `RELEASE_SETTINGS_READ_TOKEN`. The earlier decision is
+preserved below as the historical policy record.
+
+Future releases still require an annotated semantic-version tag. Before repository code executes,
+the workflow confirms the local annotated tag, remote tag-object type and SHA, tag name, peeled
+event commit, protected-`main` containment, and exact project-version match. Deterministic assets,
+checksums, bundle transfer, draft-first creation, release-body and asset byte comparison, and
+stable one-time publication are unchanged.
+
+The publishing job no longer queries repository immutable-release settings before creating the
+draft. Every credentialed GitHub command uses the exact checksummed GitHub CLI with the job-scoped
+`github.token`; no separately managed release credential is required. Immutable releases must
+still be enabled before creating the tag. Immediately after publication, the workflow requires
+the release to report immutable and independently verifies the release and every asset.
+Because the settings query is intentionally removed, maintainers must confirm immutable releases
+are enabled before tagging; the workflow detects a disabled setting only after publication.
+
 ## 2026-07-29 — Functional Python contract and browser worker
 
 Python owns request validation and response assembly. The static UI sends

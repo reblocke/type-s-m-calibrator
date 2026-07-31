@@ -143,7 +143,7 @@ jobs:
             capture && /^\[[^]]+\]:/ { exit }
             capture { print }
           ' CHANGELOG.md > "$bundle/release-notes.md"
-          test -s "$bundle/release-notes.md"
+          grep -q '[^[:space:]]' "$bundle/release-notes.md"
       - name: Transfer the complete release bundle
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -157,6 +157,7 @@ jobs:
     needs: verify-and-build
     permissions:
       contents: write # Required only to create and publish the verified release.
+      attestations: read # Required to verify the immutable release and asset attestations.
     runs-on: ubuntu-latest
     env:
       GH_REPO: ${{ github.repository }}
@@ -170,7 +171,7 @@ jobs:
         shell: bash
         run: |
           test "$(find dist/assets -maxdepth 1 -type f | wc -l)" -eq 3
-          test -s dist/release-notes.md
+          grep -q '[^[:space:]]' dist/release-notes.md
           cd dist/assets
           sha256sum --check SHA256SUMS
       - name: Install checksummed GitHub CLI

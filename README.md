@@ -33,6 +33,18 @@ Public engineering and accessibility reports use the scoped issue forms in `.git
 vulnerabilities privately as described in [SECURITY.md](SECURITY.md); never put protected health
 information, credentials, restricted data, or sensitive values in a public report.
 
+## Why this app exists and intended use
+
+Selection rules can change how often future studies make a claim and how selected estimates behave,
+but those prospective quantities are easily misread as evidence about an observed dataset. This
+focused app keeps the assumed true effect, hypothetical precision, selection rule, and resulting
+Type S/M operating characteristics visible together.
+
+It is intended for researchers, methodologists, educators, and reviewers conducting statistical
+teaching, design critique, or sensitivity analysis under a one-parameter Wald model. It is not
+intended to estimate the true effect from observed data, validate a scientific or clinical
+threshold, or replace study-specific design and sample-size planning.
+
 ## What it provides
 
 - direct working-scale SE or reported 95% CI precision input;
@@ -181,10 +193,17 @@ Gelman A, Carlin J. Beyond Power Calculations: Assessing Type S (Sign) and Type
 M (Magnitude) Errors. *Perspectives on Psychological Science*. 2014;9(6):
 641–651. <https://doi.org/10.1177/1745691614551642>.
 
-The paper motivates the Type S/M framework. Core APIs and their tests are the
-implementation authority; the exact pinned 0.4.2 release artifact is the
-runtime authority. No external figure, table, or substantial text is copied
-here.
+The repository recorded retrieval on 2026-06-14. The publisher page marks the article
+Copyright © The Author(s) 2014 and routes reuse through its permissions and publisher terms; this
+repository does not assume a license to copy publication content.
+
+The paper motivates the Type S/M framework and its repeated-study interpretation. It does not
+define this app's supported selection rules, scenario assembly, or exact numerical contract. Core
+APIs and their tests are the implementation authority; the exact pinned 0.4.2 release artifact is
+the runtime authority. No external figure, table, dataset, or substantial text is copied here.
+
+When discussing Type S/M methodology, cite Gelman and Carlin; independently cite the exact app
+release or commit used through [`CITATION.cff`](CITATION.cff).
 
 ## License and maintenance
 

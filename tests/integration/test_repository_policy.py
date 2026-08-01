@@ -10,14 +10,14 @@ WORKFLOW_ROOT = PROJECT_ROOT / ".github" / "workflows"
 GH_CLI_VERSION = "2.93.0"
 GH_CLI_LINUX_AMD64_SHA256 = "02d1290eba130e0b896f3709ffff22e1c75a51475ddb70476a85abc6b5807af0"
 EXPECTED_ACTION_PINS = {
-    "actions/checkout": ("d23441a48e516b6c34aea4fa41551a30e30af803", "6.1.0"),
-    "actions/setup-python": ("ece7cb06caefa5fff74198d8649806c4678c61a1", "6.3.0"),
-    "astral-sh/setup-uv": ("37802adc94f370d6bfd71619e3f0bf239e1f3b78", "7.6.0"),
+    "actions/checkout": ("3d3c42e5aac5ba805825da76410c181273ba90b1", "7.0.1"),
+    "actions/setup-python": ("5fda3b95a4ea91299a34e894583c3862153e4b97", "7.0.0"),
+    "astral-sh/setup-uv": ("c771a70e6277c0a99b617c7a806ffedaca235ff9", "9.0.0"),
     "actions/upload-artifact": ("043fb46d1a93c77aae656e7c1c64a875d1fc6a0a", "7.0.1"),
     "actions/download-artifact": ("3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c", "8.0.1"),
-    "actions/configure-pages": ("983d7736d9b0ae728b81ab479565c72886d7745b", "5.0.0"),
-    "actions/upload-pages-artifact": ("7b1f4a764d45c48632c6b24a0339c27f5614fb0b", "4.0.0"),
-    "actions/deploy-pages": ("d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e", "4.0.5"),
+    "actions/configure-pages": ("45bfe0192ca1faeb007ade9deae92b16b8254a0d", "6.0.0"),
+    "actions/upload-pages-artifact": ("fc324d3547104276b827a68afc52ff2a11cc49c9", "5.0.0"),
+    "actions/deploy-pages": ("cd2ce8fcbc39b97be8ca5fce6e763baed58fa128", "5.0.0"),
 }
 
 

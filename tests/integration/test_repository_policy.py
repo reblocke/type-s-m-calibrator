@@ -345,7 +345,7 @@ def test_governance_docs_preserve_version_core_and_type_sm_boundaries() -> None:
     scope = (PROJECT_ROOT / "docs" / "SCIENTIFIC_SCOPE.md").read_text(encoding="utf-8")
     readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
 
-    assert project["version"] == "0.1.4"
+    assert project["version"] == "0.1.5"
     assert project["dependencies"] == [
         "wald-inference @ "
         "https://github.com/reblocke/wald-inference-core/releases/download/v0.4.2/"
@@ -353,7 +353,7 @@ def test_governance_docs_preserve_version_core_and_type_sm_boundaries() -> None:
         "#sha256=225331d7b9d7b70e2508eecb92851a92a8c4e245baf412a1eb0f464d85da1349"
     ]
     app, core = stage["packages"]
-    assert (app["version"], core["version"]) == ("0.1.4", "0.4.2")
+    assert (app["version"], core["version"]) == ("0.1.5", "0.4.2")
     assert core["artifact_sha256"] == (
         "225331d7b9d7b70e2508eecb92851a92a8c4e245baf412a1eb0f464d85da1349"
     )
@@ -362,7 +362,7 @@ def test_governance_docs_preserve_version_core_and_type_sm_boundaries() -> None:
         assert key in scope
     assert "posterior probability" in scope
     assert "No inverse precision solver is included." in scope
-    assert "Current app version: **0.1.4**." in readme
+    assert "Current app version: **0.1.5**." in readme
 
 
 def test_generated_stage_is_ignored_and_not_tracked() -> None:

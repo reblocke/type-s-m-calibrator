@@ -1,5 +1,14 @@
 # Decisions
 
+## 2026-07-31 — Publish reviewed maintenance updates as v0.1.5
+
+The v0.1.5 patch records reviewed build/test dependency and GitHub Actions updates, keeps the
+repository-policy allowlist synchronized to the exact reviewed Action pins, and restores exact
+identity among the hosted Pages commit, package metadata, citation, annotated tag, and immutable
+release artifacts. These maintenance updates do not change the checksum-pinned Core v0.4.2
+authority, any Type S/M formula or selection rule, the focused response or export contract,
+scientific tolerance, browser behavior, interpretation boundary, or client-side privacy.
+
 ## 2026-07-31 — Core 0.4.2 replaces Core 0.4.1 without numerical change
 
 The app pins the immutable official Core 0.4.2 wheel at

@@ -70,7 +70,7 @@ def test_worker_loads_and_calculates(page: Page, app_url: str) -> None:
     expect(page.locator("#plot")).to_contain_text("B. Type S")
     expect(page.locator("#plot")).to_contain_text("C. Type M")
     expect(page.locator("#observed-panel-note")).to_be_visible()
-    expect(page.locator("#runtime-versions")).to_contain_text("type-s-m-calibrator 0.1.4")
+    expect(page.locator("#runtime-versions")).to_contain_text("type-s-m-calibrator 0.1.5")
     expect(page.locator("#runtime-versions")).to_contain_text("wald-inference 0.4.2")
 
 

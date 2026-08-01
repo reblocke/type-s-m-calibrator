@@ -5,6 +5,16 @@ All notable changes use a release-oriented record here. This repository follows
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-07-31
+
+- Update the locked test/build toolchain to pytest 9.1.1 and setuptools 83.0.0.
+- Update the reviewed, full-SHA GitHub Actions pins used by CI, Pages, and release workflows, and
+  keep the exact reviewed pin set enforced by repository-policy tests.
+- Publish the maintenance-only app state as an immutable patch release so the hosted Pages commit,
+  package metadata, citation, and release artifacts identify the same source commit.
+- Preserve the exact Core v0.4.2 pin, all six Type S/M selection rules and calculations, focused
+  response/export contracts, browser behavior, interpretation boundaries, and client-side privacy.
+
 ## [0.1.4] - 2026-07-31
 
 - Harden CI, Pages, and future releases with full-SHA Action pins, explicit least-privilege
@@ -70,7 +80,8 @@ All notable changes use a release-oriented record here. This repository follows
 - Verifies deterministic clean staging, Chromium and WebKit behavior, strict
   error handling, exports, accessibility, and client-only privacy.
 
-[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.4...HEAD
+[Unreleased]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.5...HEAD
+[0.1.5]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/reblocke/type-s-m-calibrator/compare/v0.1.1...v0.1.2

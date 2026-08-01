@@ -19,10 +19,10 @@ Hosted app: <https://reblocke.github.io/type-s-m-calibrator/>.
 
 ## Version, release, and citation
 
-Current app version: **0.1.4**.
+Current app version: **0.1.5**.
 
 Canonical release record:
-[`v0.1.4`](https://github.com/reblocke/type-s-m-calibrator/releases/tag/v0.1.4).
+[`v0.1.5`](https://github.com/reblocke/type-s-m-calibrator/releases/tag/v0.1.5).
 Release maturity: experimental software. GitHub publication state is recorded on the versioned
 release page.
 
